@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Categories;
-use ActivismeBE\DatabaseLayering\Repositories\Contracts\RepositoryInterface;
 use ActivismeBE\DatabaseLayering\Repositories\Eloquent\Repository;
 
 /**

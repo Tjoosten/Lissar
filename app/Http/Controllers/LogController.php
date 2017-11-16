@@ -13,7 +13,7 @@ use Illuminate\View\View;
  */
 class LogController extends Controller
 {
-    private $activityRpeository; /** @var ActivityRepository $activityRepository */
+    private $activityRepository; /** @var ActivityRepository $activityRepository */
 
     /**
      * LogController constructor.

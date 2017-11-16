@@ -67,7 +67,7 @@
                                 <li><a href="{{ route('producten.index') }}"><i class="fa fa-fw fa-asterisk"></i> Producten</a></li>
                             </ul>
                         </li>
-                        <li @if(Request::is('Tickets*')) class="active" @endif>
+                        <li @if(Request::is('tickets*')) class="active" @endif>
                             <a href="{{ route('tickets.index') }}">
                                 <i class="fa fa-list"></i> Helpdesk
                             </a>

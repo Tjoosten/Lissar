@@ -2,17 +2,18 @@
 
 namespace App\Repositories;
 
-use App\Permission;
+use Apikeyspace\Apikey;
 use ActivismeBE\DatabaseLayering\Repositories\Contracts\RepositoryInterface;
 use ActivismeBE\DatabaseLayering\Repositories\Eloquent\Repository;
 
 /**
- * Class PermissionRepository
+ * Class ApiKeyRepository
  *
  * @package App\Repositories
  */
-class PermissionRepository extends Repository
+class ApiKeyRepository extends Repository
 {
+
     /**
      * Set the eloquent model class for the repository.
      *
@@ -20,6 +21,6 @@ class PermissionRepository extends Repository
      */
     public function model()
     {
-        return Permission::class;
+        return Apikey::class;
     }
 }
