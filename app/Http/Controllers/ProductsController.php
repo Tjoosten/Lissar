@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductValidator;
 use App\Repositories\ProductRepository;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\{RedirectResponse, Response};
 use Illuminate\View\View;
 
 /**
@@ -50,11 +49,23 @@ class ProductsController extends Controller
      */
     public function create(): View  
     {
-        return view(); 
+        return view('products.create');
     }
 
-    public function store(): RedirectResponse
+    /**
+     * Store a new product in the database. 
+     *
+     * @param  ProductValidator $input The given user input (Validated).
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(ProductValidator $input): RedirectResponse
     {
+        $input->merge(['author_id' => auth()->user()->id]); // Merge the user from the current session in the inputs.
+
+        if ($product = $this->productRepository->create($input->except('_token'))) {
+            flash("het product '{$product->name}' is opgeslagen in het systeem.")->success();
+        } 
+
         return redirect()->route('products.index');
     }
 
@@ -66,8 +77,12 @@ class ProductsController extends Controller
      */
     public function destroy($productId): RedirectResponse
     {
-        $productId = $this->productRepository->find($productId) ?: abort(Response::HTTP_NOT_FOUND);
+        $product = $this->productRepository->find($productId) ?: abort(Response::HTTP_NOT_FOUND);
 
-        return redirect()->route();
+        if ($product->delete()) {
+            flash("Het product '{$product->name}' is verwijderd uit het systeem.")->success();
+        }
+
+        return redirect()->route('products.index');
     }
 }
