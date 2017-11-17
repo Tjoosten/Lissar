@@ -3,7 +3,7 @@
         <div class="panel-body">
 
             <ul class="nav nav-pills">
-                <li role="presentation" class="active">
+                <li role="presentation">
                     <a href="#">
                         Actieve ticketten 
                         <span class="badge">{{ $tickets->where('closed', 'N')->count() }}</span>
@@ -16,7 +16,7 @@
                     </a>
                 </li>
                 <li role="presentation" @if (Request::is('tickets/dashboard')) class="active" @endif>
-                    <a href="#">Dashboard</a>
+                    <a href="{{ route('tickets.index') }}">Dashboard</a>
                 </li>
                 <li role="presentation" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -27,7 +27,7 @@
                         <li><a href="">Statussen</a></li>
                         <li><a href="">Prioriteiten</a></li>
                         <li><a href="">Vrijwilligers</a></li>
-                        <li><a href="">Categorieen</a></li>
+                        <li><a href="{{ route('categories.index') }}">Categorieen</a></li>
                         <li><a href="">Administrators</a></li>
                     </ul>
                 </li>

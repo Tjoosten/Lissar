@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryValidator;
-use App\Repositories\CategoryRepository;
+use App\Repositories\{CategoryRepository, TicketsRepository};
 use Illuminate\Http\{Response, RedirectResponse};
 use Illuminate\View\View;
 
@@ -15,17 +15,21 @@ use Illuminate\View\View;
 class CategoryController extends Controller
 {
     private $categoryRepository; /** @var CategoryRepository $categoryRepository */
+    private $ticketsRepository;  /** @var TicketsRepository  $ticketsRepository  */
 
     /**
      * CategoryController constructor.
      *
+     * @param  TicketsRepository  $ticketsRepository  The abstraction layer between controller and database.
      * @param  CategoryRepository $categoryRepository The abstraction layer between controller and database.
      * @return void
      */
-    public function __construct(CategoryRepository $categoryRepository)
+    public function __construct(CategoryRepository $categoryRepository, TicketsRepository $ticketsRepository)
     {
         $this->middleware('auth');
+
         $this->categoryRepository = $categoryRepository;
+        $this->ticketsRepository   = $ticketsRepository;
     }
 
     /**
@@ -36,7 +40,8 @@ class CategoryController extends Controller
     public function index(): View
     {
         return view('categories.index', [
-            'categories' => $this->categoryRepository->findWhere(['module' => 'helpdesk'])
+            'categories' => $this->categoryRepository->entity()->with(['author'])->where('module', 'helpdesk')->paginate(20),
+            'tickets'    => $this->ticketsRepository->entity()
         ]);
     }
 

@@ -122,7 +122,7 @@
                         {{ $normalUsers->render() }} {{-- Pagination view instance --}}
                     </div> {{-- End users tab --}}
 
-                    <div role="tabpanel" class="tab-pane list-group fade in" id="admins">
+                    <div role="tabpanel" class="tab-pane list-group fade in" id="admins"> {{-- Tab panel for admin users. --}}
                         <a href="#" class="list-group-item disabled">
                             <span>Adminstrators</span>
 
@@ -151,9 +151,13 @@
                                 <i>Er zijn geen administrators in het systeem</i>
                             </a>
                         @endif
+
+                        {{ $adminUsers->render() }}
                     </div>
                     
-                    <div role="tabpanel" class="tab-pane" id="category">        </div>
+                    <div role="tabpanel" class="tab-pane" id="category"> {{-- Tab panel for the helpdesk categories. --}} 
+                        {{-- // --}}
+                    </div>
                 </div> {{-- /Side navigation panels --}}
 
             </div> {{-- /Side navigation --}}

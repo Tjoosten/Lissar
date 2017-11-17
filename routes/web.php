@@ -44,3 +44,7 @@ Route::get('/products', 'ProductsController@index')->name('producten.index');
 
 // Log routes
 Route::get('/activity', 'LogController@index')->name('logs.index');
+
+// Helpdesk category routes. 
+Route::get('categories', 'CategoryController@index')->name('categories.index');
+Route::get('categories/create', 'CategoryController@create')->name('categories.create');
