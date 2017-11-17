@@ -40,14 +40,25 @@ class CategoryController extends Controller
         ]);
     }
 
+    /**
+     * Create view in the database for a new helpdesk category.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create(): View
     {
-
+        return view('categories.create');
     }
 
+    /**
+     * Store a new ticket in the system.
+     *
+     * @param  CategoryValidator $input The user given input. (validated)
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(CategoryValidator $input): RedirectResponse
     {
-
+        return redirect()->route('categories.create');
     }
 
     /**

@@ -5,32 +5,7 @@
         @include('flash::message') {{-- Flash message view instance --}}
 
         <div class="row">
-            <div class="col-md-12"> {{-- Navigation bar --}}
-                <div class="panel panel-default">
-                    <div class="panel-body">
-
-                        <ul class="nav nav-pills">
-                            <li role="presentation" class="active"><a href="#">Actieve ticketten <span class="badge">1</span></a></li>
-                            <li role="presentation"><a href="#">Gesloten ticketten <span class="badge">95</span></a></li>
-                            <li role="presentation"><a href="#">Dashboard</a></li>
-                            <li role="presentation" class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                    Configuratie <span class="caret"></span>
-                                </a>
-                                
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="">Statussen</a></li>
-                                    <li><a href="">Prioriteiten</a></li>
-                                    <li><a href="">Vrijwilligers</a></li>
-                                    <li><a href="">Categorieen</a></li>
-                                    <li><a href="">Administrators</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                    </div>
-                </div>
-            </div> {{-- /Navigation bar --}}
+            @include('tickets.partials.navigation') {{-- Helpdesk navigation bar --}}
 
             {{-- Panels --}}
                 <div class="col-md-4">
@@ -41,7 +16,7 @@
                                     <i class="fa fa-list"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <h1>96</h1>
+                                    <h1>{{ $tickets->count() }}</h1>
                                     <div>Aantal ticketten</div>
                                 </div>
                             </div>
@@ -57,7 +32,7 @@
                                     <i class="fa fa-wrench"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <h1>1</h1>
+                                    <h1>{{ $tickets->where('closed', 'N')->count() }}</h1>
                                     <div>Open tickets</div>
                                 </div>
                             </div>
@@ -73,7 +48,7 @@
                                     <i class="fa fa-thumbs-o-up"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <h1>95</h1>
+                                    <h1>{{ $tickets->where('closed', 'Y')->count() }}</h1>
                                     <span>Gesloten ticketten</span>
                                 </div>
                             </div>
@@ -95,23 +70,91 @@
 
             <div class="col-md-4"> {{-- Side navigation --}}
 
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="nav nav-tabs nav-justified" role="tablist" style="margin-bottom: 10px;">
                     <li role="presentation" class="active">
-                        <a href="#home" aria-controls="home" role="tab" data-toggle="tab">
+                        <a href="#users" aria-controls="users" role="tab" data-toggle="tab">
                             <i class="fa fa-users"></i> Gebruikers
                         </a>
                     </li>
                     <li role="presentation">
-                        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">
+                        <a href="#admins" aria-controls="admins" role="tab" data-toggle="tab">
                             <i class="fa fa-users"></i> Admins
                         </a>
                     </li>
                     <li role="presentation">
-                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                        <a href="#category" aria-controls="category" role="tab" data-toggle="tab">
                             <i class="fa fa-tags"></i> Categorieen
                         </a>
                     </li>
                 </ul>
+
+                <div class="tab-content"> {{-- Side navigation panels --}}
+
+                    <div role="tabpanel" class="list-group tab-pane fade in active" id="users"> {{-- Tab panel for the normal users. --}}
+                        <a href="#" class="list-group-item disabled">
+                            <span>Gebruikers</span>
+                            <span class="pull-right text-muted small">
+                                <em> Open / Gesloten </em>
+                            </span>
+                        </a> 
+
+                        @php ($normalUsers = $users->role('user')->paginate(10))
+
+                        @if (count($normalUsers) > 0)
+                            @foreach ($normalUsers as $normalUser) {{-- Loop through the users --}}
+                                <a href="#" class="list-group-item"> {{-- TODO: Implement view for the user specific tickets. --}}
+                                    {{ $normalUser->name }}
+
+                                    <span class="pull-right text-muted small">
+                                        <em>
+                                            {{ $tickets->where('author_id', $normalUser->id)->where('closed', 'N')->count() }} /
+                                            {{ $tickets->where('author_id', $normalUser->id)->where('closed', 'Y')->count() }}
+                                        </em>
+                                    </span>
+                                </a>
+                            @endforeach {{-- END LOOP --}} 
+                        @else 
+                            <a href="#" class="list-group-item">
+                                <i>Er zijn geen gebruikers in het systeem.</i>
+                            </a>
+                        @endif
+
+                        {{ $normalUsers->render() }} {{-- Pagination view instance --}}
+                    </div> {{-- End users tab --}}
+
+                    <div role="tabpanel" class="tab-pane list-group fade in" id="admins">
+                        <a href="#" class="list-group-item disabled">
+                            <span>Adminstrators</span>
+
+                            <span class="pull-right text-muted small">
+                                <em> Open / Gesloten </em>
+                            </span>
+                        </a>
+
+                        @php ($adminUsers = $users->role('admin')->paginate(20))
+
+                        @if (count($adminUsers) > 0)
+                            @foreach ($adminUsers as $adminUser)
+                                <a href="#" class="list-group-item"> {{-- Loop through the admin --}}
+                                    {{ $adminUser->name }} 
+
+                                    <span class="pull-right text-muted small">
+                                        <em>
+                                            {{ $tickets->where('author_id', $adminUser->id)->where('closed', 'N')->count() }} /
+                                            {{ $tickets->where('author_id', $adminUser->id)->where('closed', 'Y')->count() }}
+                                        </em>
+                                    </span>
+                                </a> {{-- END LOOP --}}
+                            @endforeach
+                        @else
+                            <a href="#" class="list-group-item">
+                                <i>Er zijn geen administrators in het systeem</i>
+                            </a>
+                        @endif
+                    </div>
+                    
+                    <div role="tabpanel" class="tab-pane" id="category">        </div>
+                </div> {{-- /Side navigation panels --}}
 
             </div> {{-- /Side navigation --}}
         </div>
