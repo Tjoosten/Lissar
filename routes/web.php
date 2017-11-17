@@ -27,7 +27,7 @@ Route::post('account/info', 'AccountSettingsController@editInfo')->name('account
 Route::post('account/security', 'AccountSettingsController@editSecurity');
 
 // Ticket controller routes
-Route::get('/tickets', 'TicketController@index')->name('tickets.index');
+Route::get('/tickets/dashboard', 'TicketController@index')->name('tickets.index');
 Route::get('/tickets/create', 'TicketController@create')->name('ticket.create');
 
 // Permission routes

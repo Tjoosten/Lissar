@@ -43,7 +43,7 @@ class TicketController extends Controller
     {
         return view('tickets.index', [
             'tickets' => $this->ticketsRepository->entity(),    // TODO: Register tickets counts on the view.
-            'users'   => $this->usersRepository->entity()       // TODO: Register user listing on the view.
+            'users'   => $this->usersRepository->entity()
         ]);
     }
 

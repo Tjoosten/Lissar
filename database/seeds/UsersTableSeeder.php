@@ -39,7 +39,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         // Ask for database migration refresh, default is no
-        if ($this->command->confirm('Do yu wish to refresh migrations before seeding, it will clear all old data!')) {
+        if ($this->command->confirm('Do you wish to refresh migrations before seeding, it will clear all old data!')) {
             // Call the php artisan migrate:refresh command.
             $this->command->call('migrate:refresh');
             $this->command->warn('Data cleared, started from blank database.');
@@ -48,7 +48,7 @@ class UsersTableSeeder extends Seeder
         // Confirm roles needed.
         if ($this->command->confirm('Create roles for users, default is Admin and Verantwoordelijke. [y/N]', true)) {
             // Ask the roles from input.
-            $inputRoles = $this->command->ask('Enter roles in comma seperate format.', 'admin, verantwoordelijke');
+            $inputRoles = $this->command->ask('Enter roles in comma seperate format.', 'admin, verantwoordelijke, user');
             $rolesArray = explode(',', $inputRoles);
 
             foreach ($rolesArray as $role) { // Add roles
