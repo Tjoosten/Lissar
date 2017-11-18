@@ -29,7 +29,7 @@ class CategoryController extends Controller
         $this->middleware('auth');
 
         $this->categoryRepository = $categoryRepository;
-        $this->ticketsRepository   = $ticketsRepository;
+        $this->ticketsRepository  = $ticketsRepository;
     }
 
     /**
@@ -46,13 +46,24 @@ class CategoryController extends Controller
     }
 
     /**
+     * Display the tickets based on the category.
+     *
+     * @param  integer $categoryId The unique identifier in the storage
+     * @return \Illuminate\View\View
+     */
+    public function show($categoryId): View 
+    {
+        // TODO: Create controller and logic.
+    }
+
+    /**
      * Create view in the database for a new helpdesk category.
      *
      * @return \Illuminate\View\View
      */
     public function create(): View
     {
-        return view('categories.create');
+        return view('categories.create', ['tickets' => $this->ticketsRepository->entity()]);
     }
 
     /**
@@ -63,7 +74,13 @@ class CategoryController extends Controller
      */
     public function store(CategoryValidator $input): RedirectResponse
     {
-        return redirect()->route('categories.create');
+        $input->merge(['author_id' => auth()->user()->id, 'module' => 'helpdesk']);
+        
+        if ($category = $this->categoryRepository->create($input->except('_token'))) {
+            flash("De categorie {$category->name} is aangemaakt in het systeem.")->success();
+        }
+
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -75,7 +92,9 @@ class CategoryController extends Controller
     public function edit($categoryId): View
     {
         $category = $this->categoryRepository->find($categoryId) ?: abort(Response::HTTP_NOT_FOUND);
-        return view('categories.edit', compact('category'));
+        $tickets  = $this->ticketsRepository->entity(); 
+
+        return view('categories.edit', compact('category', 'tickets'));
     }
 
     /**

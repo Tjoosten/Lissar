@@ -17,8 +17,8 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->integer('author_id'); 
             $table->string('module');
-            $table->string('color_code'); 
-            $table->string('name')->unique(); 
+            $table->string('color_code', 7); 
+            $table->string('name', 50)->unique(); 
             $table->text('description');
             $table->timestamps();
         });

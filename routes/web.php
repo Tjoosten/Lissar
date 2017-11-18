@@ -48,3 +48,6 @@ Route::get('/activity', 'LogController@index')->name('logs.index');
 // Helpdesk category routes. 
 Route::get('categories', 'CategoryController@index')->name('categories.index');
 Route::get('categories/create', 'CategoryController@create')->name('categories.create');
+Route::get('categories/delete/{id}', 'CategoryController@delete')->name('categories.destroy');
+Route::get('categories/edit/{id}', 'CategoryController@edit')->name('categories.edit');
+Route::post('categories/store', 'CategoryController@store')->name('categories.store');

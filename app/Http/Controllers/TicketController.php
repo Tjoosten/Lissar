@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TicketValidator;
-use App\Repositories\{
-    CategoryRepository, UsersRepository, TicketsRepository
-};
+use App\Repositories\{CategoryRepository, UsersRepository, TicketsRepository};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -56,7 +54,8 @@ class TicketController extends Controller
     public function create(CategoryRepository $categoryRepository): View
     {
         return view('tickets.create', [
-            'categories' => $categoryRepository->entity()->where(['module', 'helpdesk'])
+            'categories' => $categoryRepository->entity()->where(['module', 'helpdesk']), 
+            'tickets'    => $this->ticketsRepository->entity(),
         ]);
     }
 

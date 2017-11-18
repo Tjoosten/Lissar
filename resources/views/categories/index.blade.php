@@ -39,7 +39,9 @@
                                                 <td>{{ $category->description }}</td>
                                                 <td>{{ $category->created_at->diffForHumans() }}</td>
 
-                                                <td class="text-center"> {{-- Options --}}
+                                                <td class="text-right"> {{-- Options --}}
+                                                    <a href="{{ route('categories.edit', $category) }}" class="label label-warning"><i class="fa fa-wrench"></i> Wijzig</a>
+                                                    <a href="{{ route('categories.destroy', $category) }}" class="label label-danger"><i class="fa fa-close"></i> Verwijder</a>
                                                 </td> {{-- END Options --}}
                                             <tr>
                                         @endforeach {{-- END LOOP --}} 

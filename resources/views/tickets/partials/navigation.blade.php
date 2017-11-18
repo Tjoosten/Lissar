@@ -4,6 +4,12 @@
 
             <ul class="nav nav-pills">
                 <li role="presentation">
+                    <a href="">
+                        Mijn ticketten
+                        <span class="badge">{{ $tickets->where('author_id', auth()->user()->id)->count() }}
+                    </a>
+                </li>
+                <li role="presentation">
                     <a href="#">
                         Actieve ticketten 
                         <span class="badge">{{ $tickets->where('closed', 'N')->count() }}</span>
