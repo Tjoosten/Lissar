@@ -16,9 +16,11 @@ class Ticket extends Model
      *
      * @var array
      */
-    protected $fillable = ['author_id', 'title', 'content'];
+    protected $fillable = ['author_id', 'category_id', 'title', 'content'];
 
     /**
+     * Resolve the user id into the author_id DB column. 
+     * 
      * @param  User $user The Model instance for the given user.
      * @return void
      */

@@ -2,18 +2,17 @@
 
 namespace App\Repositories;
 
-use App\Priority;
+use Illuminate\Notifications\DatabaseNotification;
 use ActivismeBE\DatabaseLayering\Repositories\Contracts\RepositoryInterface;
 use ActivismeBE\DatabaseLayering\Repositories\Eloquent\Repository;
 
 /**
- * Class PriorityRepository
+ * Class NotificationsRepository
  *
  * @package App\Repositories
  */
-class PriorityRepository extends Repository
+class NotificationsRepository extends Repository
 {
-
     /**
      * Set the eloquent model class for the repository.
      *
@@ -21,6 +20,6 @@ class PriorityRepository extends Repository
      */
     public function model()
     {
-        return Priority::class;
+        return DatabaseNotification::class;
     }
 }

@@ -21,8 +21,12 @@ Route::get('users', 'UsersController@index')->name('users.index');
 Route::get('/users/delete/{id}', 'UsersController@destroy')->name('users.delete');
 Route::get('/users/edit/{id}', 'UsersController@edit')->name('users.edit');
 
+// Notification routes
+Route::get('/notifications', 'NotificationsController@index')->name('notifications.index'); 
+Route::get('/notifications/read/all', 'NotificationsController@markAllAsRead')->name('notifications.read.all');
+
 // Account settings routes
-Route::get('account', 'AccountSettingsController@index')->name('account.settings');
+Route::get('account/{type}', 'AccountSettingsController@index')->name('account.settings');
 Route::post('account/info', 'AccountSettingsController@editInfo')->name('account.settings.info');
 Route::post('account/security', 'AccountSettingsController@editSecurity');
 
@@ -35,6 +39,7 @@ Route::get('/permissions', 'PermissionController@index')->name('acl.index');
 
 // API Key controller
 Route::get('/apikeys', 'ApiKeyController@index')->name('apikeys.index');
+Route::post('/apikeys/create', 'ApiKeyController@store')->name('apikeys.store');
 
 // Subscription routes
 Route::get('/subscriptions', 'SubscriptionController@index')->name('inschrijvingen.index');
@@ -44,3 +49,17 @@ Route::get('/products', 'ProductsController@index')->name('producten.index');
 
 // Log routes
 Route::get('/activity', 'LogController@index')->name('logs.index');
+
+// Helpdesk category routes. 
+Route::get('categories', 'CategoryController@index')->name('categories.index');
+Route::get('categories/create', 'CategoryController@create')->name('categories.create');
+Route::get('categories/delete/{id}', 'CategoryController@delete')->name('categories.destroy');
+Route::get('categories/edit/{id}', 'CategoryController@edit')->name('categories.edit');
+Route::post('categories/store', 'CategoryController@store')->name('categories.store');
+
+// Helpdesk priority routes 
+Route::get('/priorities', 'PrioritiesController@index')->name('priorities.index');
+Route::get('/priorities/create', 'PrioritiesController@create')->name('priorities.create');
+Route::get('/priorities/edit/{id}', 'PrioritiesController@edit')->name('priorities.edit');
+Route::get('/priorities/delete/{id}', 'PrioritiesController@destroy')->name('priorities.destroy'); 
+Route::post('/priorities/store', 'PrioritiesController@store')->name('priorities.store');

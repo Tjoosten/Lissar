@@ -29,9 +29,9 @@
 
             <div class="col-md-9"> {{-- Panel content --}}
                 <div class="tab-content"> {{-- Panels --}}
-                    <div role="tabpanel" class="tab-pane active" id="info"> @include('account-settings.information') </div>
-                    <div role="tabpanel" class="tab-pane" id="security">    @include('account-settings.security')    </div>
-                    <div role="tabpanel" class="tab-pane" id="apikeys">     @include('account-settings.api-keys')    </div>
+                    <div role="tabpanel" class="tab-pane @if (Request::segment(2) === 'info') active @endif }}" id="info"> @include('account-settings.information') </div>
+                    <div role="tabpanel" class="tab-pane @if (Request::segment(2) === 'security') active @endif }}" id="security">    @include('account-settings.security')    </div>
+                    <div role="tabpanel" class="tab-pane @if (Request::segment(2) === 'apikeys') active @endif }}" id="apikeys">     @include('account-settings.api-keys')    </div>
                 </div> {{-- /End panels --}}
             </div> {{-- END panel contentr --}}
         </div>

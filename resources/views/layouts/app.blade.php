@@ -9,7 +9,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> {{-- TODO: Register this one to the app.scss --}}
 </head>
 <body>
     <div id="app">
@@ -17,7 +17,7 @@
             <div class="container">
                 <div class="navbar-header">
 
-                    <!-- Collapsed Hamburger -->
+                    {{-- Collapsed Hamburger --}}
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
                         <span class="sr-only">Toggle Navigation</span>
                         <span class="icon-bar"></span>
@@ -25,14 +25,13 @@
                         <span class="icon-bar"></span>
                     </button>
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ url('/') }}"> {{-- Branding Image --}}
                         {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
+                    {{-- Left Side Of Navbar --}}
                     <ul class="nav navbar-nav">
                         <li class="dropdown @if(Request::is('users*') || Request::is('apikeys*') || Request::is('acl*')) active @endif">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
@@ -79,9 +78,9 @@
                         </li>
                     </ul>
 
-                    <!-- Right Side Of Navbar -->
+                    {{-- Right Side Of Navbar --}}
                     <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
+                        {{-- Authentication Links --}}
                         @guest
                             <li>
                                 <a href="{{ route('login') }}">
@@ -89,19 +88,23 @@
                                 </a>
                             </li>
                         @else
-                            <li>
-                                <a href="">
-                                    <i class="fa fa-bell"></i>
+                            <li @if (Request::is('notifications*')) class="active" @endif>
+                                <a href="{{ route('notifications.index') }}">
+                                    <i class="fa fa-bell-o"></i>
+
+                                    @if ($user->unreadNotifications()->count() > 0) {{-- The user has unread notifications --}}
+                                        <span class="badge">{{ $user->unreadNotifications->count() }}</span>
+                                    @endif 
                                 </a>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ $user->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{{ route('account.settings') }}">
+                                        <a href="{{ route('account.settings', ['type' => 'info']) }}">
                                             <i class="fa fa-fw fa-cogs"></i> Instellingen.
                                         </a>
                                     </li>
@@ -113,7 +116,7 @@
                                     <li class="divider"></li>
                                     <li>
                                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            <i class="fa fa-fw fa-sign-out"></i> Logout
+                                            <i class="fa fa-fw fa-sign-out"></i> Afmelden
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -131,7 +134,7 @@
         @yield('content')
     </div>
 
-    <!-- Scripts -->
+    {{-- Scripts --}}
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

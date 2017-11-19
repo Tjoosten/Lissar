@@ -64,6 +64,7 @@
                     </div>
 
                     <div class="panel-body">
+                        {{-- // --}}
                     </div>
                 </div>
             </div> {{-- /Content --}}
@@ -122,7 +123,7 @@
                         {{ $normalUsers->render() }} {{-- Pagination view instance --}}
                     </div> {{-- End users tab --}}
 
-                    <div role="tabpanel" class="tab-pane list-group fade in" id="admins">
+                    <div role="tabpanel" class="tab-pane list-group fade in" id="admins"> {{-- Tab panel for admin users. --}}
                         <a href="#" class="list-group-item disabled">
                             <span>Adminstrators</span>
 
@@ -151,9 +152,40 @@
                                 <i>Er zijn geen administrators in het systeem</i>
                             </a>
                         @endif
+
+                        {{ $adminUsers->render() }}
                     </div>
                     
-                    <div role="tabpanel" class="tab-pane" id="category">        </div>
+                    <div role="tabpanel" class="tab-pane" id="category"> {{-- Tab panel for the helpdesk categories. --}} 
+                        <a href="" class="list-group-item disabled">
+                            <span>Categorieen:</span>
+
+                            <span class="pull-right text-muted small">
+                                <em> Open / Gesloten </em>
+                            </span>
+                        </a>
+
+                        @if (count($categories) > 0)  {{-- Categories found --}}
+                            @foreach ($categories as $category) {{-- Loop through the categories --}}
+                                <a href="#" class="list-group-item">
+                                    {{ $category->name }}
+
+                                    <span class="pull-right text-muted small">
+                                        <em>
+                                            {{ $tickets->where('closed', 'N')->where('category_id', $category->id)->count() }} / 
+                                            {{ $tickets->where('closed', 'Y')->where('category_id', $category->id)->count() }}
+                                        </em>
+                                    </span>
+                                </a> 
+                            @endforeach {{-- END LOOP --}}
+                        @else {{-- No Categories found --}}
+                            <a href="#" class="list-group-item">
+                                <i>Er zijn geen categorieen in het systeem</i>
+                            </a>
+                        @endif
+
+                        {{ $categories->render() }} {{-- Pagination view instance. --}}
+                    </div>
                 </div> {{-- /Side navigation panels --}}
 
             </div> {{-- /Side navigation --}}

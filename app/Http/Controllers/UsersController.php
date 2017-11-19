@@ -32,7 +32,7 @@ class UsersController extends Controller
     /**
      * Index page for the user management system.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function index(): View
     {
@@ -40,10 +40,45 @@ class UsersController extends Controller
     }
 
     /**
+     * Create view a new user. 
+     *
+     * @return View
+     */
+    public function create(): View
+    {
+        return view('users.create');
+    }
+
+    /**
+     * Store the new user in the storage.
+     *
+     * @param  UserValidator $input The given input form the user. (Validated)
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(UserValidator $input): RedirectResponse 
+    {
+        if ($user = $this->usersRepository->create($input->except('_token'))) {
+            flash("U hebt een login aangemaakt voor {$user->name}")->success();
+        }
+
+        return redirect()->route('users.index');
+    }
+
+    public function block(): RedirectResponse
+    {
+
+    }
+
+    public function unblock(): RedirectResponse
+    {
+
+    }
+
+    /**
      * Edit view for a specific view.
      *
      * @param  integer $userId The unique user identifier in the storage.
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function edit($userId): View
     {
@@ -52,9 +87,11 @@ class UsersController extends Controller
     }
 
     /**
+     * Update the user in the system. 
+     * 
      * @param  UserValidator $input  The user given input. (Validated).
      * @param  integer       $userId The unique identifier in the storage
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UserValidator $input, $userId): RedirectResponse
     {
@@ -71,7 +108,7 @@ class UsersController extends Controller
      * Delete an user in the system.
      *
      * @param  integer $userId The unique identifier in the storage.
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($userId): RedirectResponse
     {

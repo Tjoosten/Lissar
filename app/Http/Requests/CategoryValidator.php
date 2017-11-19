@@ -13,7 +13,7 @@ class CategoryValidator extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->user()->hasRole('admin');
     }
 
     /**
@@ -24,7 +24,9 @@ class CategoryValidator extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'          => 'required|unique:categories,name|max:50', 
+            'color_code'    => 'required|max:7',
+            'description'   => 'required' 
         ];
     }
 }

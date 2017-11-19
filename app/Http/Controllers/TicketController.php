@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TicketValidator;
-use App\Repositories\{
-    CategoryRepository, UsersRepository, TicketsRepository
-};
+use App\Repositories\{CategoryRepository, UsersRepository, TicketsRepository};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -16,8 +14,9 @@ use Illuminate\View\View;
  */
 class TicketController extends Controller
 {
-    private $ticketsRepository; /** @var TicketsRepository $ticketsRepository */
-    private $usersRepository;   /** @var UsersRepository   $usersRepository   */
+    private $ticketsRepository;     /** @var TicketsRepository  $ticketsRepository  */
+    private $usersRepository;       /** @var UsersRepository    $usersRepository    */
+    private $categoryRepository;    /** @var CategoryRepository $categoryRepository */
 
     /**
      * TicketController constructor.
@@ -26,24 +25,26 @@ class TicketController extends Controller
      * @param  UsersRepository   $usersRepository   Abstraction layer between controller and database.
      * @return void
      */
-    public function __construct(TicketsRepository $ticketsRepository, UsersRepository $usersRepository)
+    public function __construct(TicketsRepository $ticketsRepository, UsersRepository $usersRepository, CategoryRepository $categoryRepository)
     {
         $this->middleware(['auth']);
 
-        $this->usersRepository   = $usersRepository;
-        $this->ticketsRepository = $ticketsRepository;
+        $this->usersRepository    = $usersRepository;
+        $this->ticketsRepository  = $ticketsRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
      * Index page for the support tickets.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function index(): View
     {
         return view('tickets.index', [
-            'tickets' => $this->ticketsRepository->entity(),    // TODO: Register tickets counts on the view.
-            'users'   => $this->usersRepository->entity()
+            'tickets'    => $this->ticketsRepository->entity(),
+            'users'      => $this->usersRepository->entity(),
+            'categories' => $this->categoryRepository->paginate(10),
         ]);
     }
 
@@ -51,12 +52,13 @@ class TicketController extends Controller
      * Create view for a support ticket.
      *
      * @param  CategoryRepository $categoryRepository Abstraction layer between controller and category database.
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function create(CategoryRepository $categoryRepository): View
     {
         return view('tickets.create', [
-            'categories' => $categoryRepository->entity()->where(['module', 'helpdesk'])
+            'categories' => $categoryRepository->entity()->where(['module', 'helpdesk']), 
+            'tickets'    => $this->ticketsRepository->entity(),
         ]);
     }
 
@@ -64,7 +66,7 @@ class TicketController extends Controller
      * Store the bug ticket in the system.
      *
      * @param  TicketValidator $input The user given input. (validated)
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(TicketValidator $input): RedirectResponse
     {
