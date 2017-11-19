@@ -66,7 +66,7 @@ class ApiKeyController extends Controller
         //? TODO: Implement shorthand IF/ELSE to determine the flash session. 
         //?       This is needed because the ->createkey($service) can return FALSE.     
 
-        return redirect()->back(Response::HTTP_FOUND);
+        return redirect()->to($this->apiKeyRepository->getRedirectRoute());
     }
 
     /**
@@ -78,9 +78,9 @@ class ApiKeyController extends Controller
     public function delete($keyId): RedirectResponse
     {
         // TODO: Implement check. If the key is not found in the database throw an 404.
-        // TODO: Create the destory handling in the database
+        // TODO: Create the destroy handling in the database
         // TODO: if the delete was confirmed send an mail to the user that is owner of the key.
 
-        return redirect()->route('apikeys.index');
+        return redirect()->to($this->apiKeyRepository->getRedirectRoute());
     }
 }

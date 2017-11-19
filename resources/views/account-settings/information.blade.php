@@ -17,6 +17,9 @@
 
             <div class="form-group">
                 <label class="control-label col-md-3">E-mail adres: <span class="text-danger">*</span></label>
+
+                <div class="col-md-10">
+                </div>
             </div>
 
             <div class="form-group">
