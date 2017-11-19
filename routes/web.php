@@ -33,12 +33,14 @@ Route::post('account/security', 'AccountSettingsController@editSecurity');
 // Ticket controller routes
 Route::get('/tickets/dashboard', 'TicketController@index')->name('tickets.index');
 Route::get('/tickets/create', 'TicketController@create')->name('ticket.create');
+Route::post('/tickets/store', 'TicketController@store')->name('ticket.store');
 
 // Permission routes
 Route::get('/permissions', 'PermissionController@index')->name('acl.index');
 
 // API Key controller
 Route::get('/apikeys', 'ApiKeyController@index')->name('apikeys.index');
+Route::get('/apikeys/delete/{id}', 'ApiKeyController@delete')->name('apikeys.delete');
 Route::post('/apikeys/create', 'ApiKeyController@store')->name('apikeys.store');
 
 // Subscription routes

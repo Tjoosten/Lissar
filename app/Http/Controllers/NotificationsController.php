@@ -36,8 +36,8 @@ class NotificationsController extends Controller
     public function index(): View
     {
         return view('notifications.index', [
-            'unreadNotifications' => auth()->user()->unreadNotifications(), // ENTITY instance
-            'readNotifications'   => auth()->user()->notifications()        // ENTITY instance
+            'unreadNotifications' => auth()->user()->unreadNotifications()->paginate(10),
+            'readNotifications'   => auth()->user()->notifications()->paginate(10)
         ]); 
     }
 

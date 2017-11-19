@@ -9,18 +9,10 @@
                 <div class="list-group">
                     <a role="presentation" href="#unread" aria-controls="unread" role="tab" data-toggle="tab" class="list-group-item">
                         <i class="fa fa-fw fa-bell-o"></i> Ongelezen notificaties
-
-                        @if ($unreadNotifications->count() > 0) {{-- User has unread notifications --}}
-                            <span class="badge">{{ $unreadNotifications->count() }}</span>
-                        @endif
                     </a>
 
                     <a role="presentation" href="#all" aria-controls="all" role="tab" data-toggle="tab" class="list-group-item">
                         <i class="fa fa-fw fa-bell-o"></i> Alle notificaties
-
-                        @if ($readNotifications->count() > 0) {{-- User has notifications --}}
-                            <span class="badge">{{ $readNotifications->count() }}</span>
-                        @endif
                     </a>
                 </div>
             </div> {{-- /END side navigation --}}
@@ -44,8 +36,7 @@
                                     </div>
 
                                     <ul>
-                                    @php($notifications2 = $unreadNotifications->paginate(10))
-                                        @if ($unreadNotifications->count() == 0) {{-- User has no unread notifications --}}
+                                        @if (count($unreadNotifications) == 0) {{-- User has no unread notifications --}}
                                             <li class="notification info">
                                                 <div class="icon">
                                                     <span class="fa fa-square-o" aria-hidden="true"></span>
@@ -57,10 +48,10 @@
                                                 </div>
                                             </li>
                                         @else {{-- There are new notifications. --}}
-                                            @foreach ($notifications2 as $unreadNotification)
-                                                <li location.href='http://example'; class="notification {{ $notification->type }}">
+                                            @foreach ($unreadNotifications as $unreadNotification)
+                                                <li location.href='http://example'; class="notification danger">
                                                     <div class="icon">
-                                                        <i class="fa fa-check-square-o"></i>
+                                                        <i class="fa fa-close"></i>
                                                     </div>
 
                                                     <div class="profile-image">
@@ -80,7 +71,7 @@
                                         @endif
                                     </ul>
 
-                                    {{ $notifications2->render() }} {{-- Pagination view instance --}}
+                                    {{ $unreadNotifications->render() }} {{-- Pagination view instance --}}
                                 </div>
                             </div> {{-- /END content body --}}
                         </div>
@@ -99,8 +90,7 @@
                                     </div>
 
                                     <ul>
-                                        @php($notifications1 = $unreadNotifications->paginate(10))
-                                        @if ($readNotifications->count() == 0) {{-- User has no unread notifications --}}
+                                        @if (count($readNotifications)) == 0) {{-- User has no unread notifications --}}
                                             <li class="notification info">
                                                 <div class="icon">
                                                     <span class="fa fa-square-o" aria-hidden="true"></span>
@@ -112,8 +102,8 @@
                                                 </div>
                                             </li>
                                         @else {{-- There are new notifications. --}}
-                                            @foreach ($notifications1 as $readNotification)
-                                                <li location.href='http://example'; class="notification {{ $notification->type }}">
+                                            @foreach ($readNotifications as $readNotification)
+                                                <li location.href='http://example'; class="notification {{ $readNotification->type }}">
                                                     <div class="icon">
                                                         <i class="fa fa-check-square-o"></i>
                                                     </div>
@@ -135,7 +125,7 @@
                                         @endif
                                     </ul>
 
-                                    {{ $notifications1->render() }} {{-- Pagination view instance --}}
+                                    {{ $readNotifications->render() }} {{-- Pagination view instance --}}
                                 </div>
                             </div> {{-- /END Content body --}}
                         </div>

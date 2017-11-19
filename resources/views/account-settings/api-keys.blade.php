@@ -60,7 +60,7 @@
                                     <td>{{ $key->service }}</td>
                                     <td><code>{{ $key->key }}</code></td>
                                     <td class="text-center">
-                                        <a href="" class="label label-danger"><i class="fa fa-close"></i> Verwijder</a>
+                                        <a href="{{ route('apikeys.delete', $key) }}" class="label label-danger"><i class="fa fa-close"></i> Verwijder</a>
                                     </td>
                                 </tr>
                             @endforeach {{-- END loop--}}

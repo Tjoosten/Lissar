@@ -14,7 +14,7 @@
                     </div>
 
                     <div class="panel-body">
-                        <form class="form-horizontal" method="POST" action="">
+                        <form class="form-horizontal" method="POST" action="{{ route('ticket.store') }}">
                             {{ csrf_field() }} {{-- Form field protection --}}
 
                             <div class="form-group"> {{-- Subject --}}
