@@ -14,7 +14,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);
+        Schema::defaultStringLength(191); //! Needed to fix the key length bug on older MySQL servers. 
+
+        view()->composer('*', function ($view) { // Set the authencated user to a variable.
+            $view->with('user', auth()->user());
+        });
     }
 
     /**

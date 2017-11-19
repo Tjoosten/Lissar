@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PriorityValidator;
-use App\Repositories\PriorityRepository;
+use App\Repositories\{PriorityRepository, TicketsRepository};
 use Illuminate\Http\{RedirectResponse, Response};
 use Illuminate\View\View;
 
@@ -14,7 +14,8 @@ use Illuminate\View\View;
  */
 class PrioritiesController extends Controller
 {
-    private $priorityRepository; /** PriorityRepository $priorityRepository */
+    private $priorityRepository; /** @var PriorityRepository $priorityRepository */
+    private $ticketsRepository;  /** @var TicketsRepository  $ticketsRepository  */
 
     /**
      * PrioritiesController constructor.
@@ -22,10 +23,12 @@ class PrioritiesController extends Controller
      * @param  PriorityRepository $priorityRepository
      * @return void
      */
-    public function __construct(PriorityRepository $priorityRepository)
+    public function __construct(PriorityRepository $priorityRepository, TicketsRepository $ticketsRepository)
     {
         $this->middleware('auth');
+
         $this->priorityRepository = $priorityRepository;
+        $this->ticketsRepository  = $ticketsRepository;
     }
 
     /**
@@ -33,26 +36,39 @@ class PrioritiesController extends Controller
      * !
      * @return \Illuminate\View\View
      */
-    public function index(): View
+    public function index(): View // TODO: register options routes in the view.
     {
-        return view('priorities.index');
+        return view('priorities.index', [
+            'priorities' => $this->priorityRepository->paginate(20),
+            'tickets'    => $this->ticketsRepository->entity()
+        ]);
     }
 
     /**
-     *
+     * Get the create view for a new helpdesk priority. 
+     * 
      * @return \Illuminate\View\View
      */
     public function create(): View
     {
-        return view('priorities.create');
+        return view('priorities.create', ['tickets' => $this->ticketsRepository->entity()]);
     }
 
     /**
+     * Store the new priority in the storage. 
+     * 
      * @param  PriorityValidator $input The user given data (Validated).
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(PriorityValidator $input): RedirectResponse
     {
+        $input->merge(['author_id' => auth()->user()->id]); 
+
+        if ($priority = $this->priorityRepository->create($input->except('_token'))) { // Priority has been stored. 
+            // TODO: Implement activity monitor, Implement translation for flash message.
+            flash("De prioriteit {$priority->name} is opgeslagen in het systeem.")->success();
+        }
+
         return redirect()->route('priorities.index');
     }
 
@@ -80,6 +96,7 @@ class PrioritiesController extends Controller
         $priority = $this->priorityRepository->find($priorityId) ?: abort(Response::HTTP_NOT_FOUND);
 
         if ($update = $priority->update($input->except('_token'))) {
+            // TODO: Implement activity monitor, Implement translation for flash message.
             flash("De prioriteit '{$update->name}' is aangepast in het systeem.")->success();
         }
 
@@ -97,6 +114,7 @@ class PrioritiesController extends Controller
         $priority = $this->priorityRepository->find($priorityId) ?: abort(Response::HTTP_NOT_FOUND);
 
         if ($priority->delete()) {
+            // TODO: implement activity monitor, Implement translation for flash message. 
             flash("De prioriteit '{$priority->name}' is verwijderd uit het systeem.")->success();
         }
 

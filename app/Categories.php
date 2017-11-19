@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * TODO: Implement docblock
+ */
 class Categories extends Model
 {
     /**
@@ -18,7 +21,6 @@ class Categories extends Model
      */
     public function author() 
     {
-        return $this->belongsTo(User::class, 'author_id')
-            ->withDefault(['name' => 'Verwijderde gebruiker']);
+        return $this->belongsTo(User::class, 'author_id')->withDefault(['name' => 'Verwijderde gebruiker']);
     }
 }

@@ -64,6 +64,7 @@
                     </div>
 
                     <div class="panel-body">
+                        {{-- // --}}
                     </div>
                 </div>
             </div> {{-- /Content --}}
@@ -156,7 +157,34 @@
                     </div>
                     
                     <div role="tabpanel" class="tab-pane" id="category"> {{-- Tab panel for the helpdesk categories. --}} 
-                        {{-- // --}}
+                        <a href="" class="list-group-item disabled">
+                            <span>Categorieen:</span>
+
+                            <span class="pull-right text-muted small">
+                                <em> Open / Gesloten </em>
+                            </span>
+                        </a>
+
+                        @if (count($categories) > 0)  {{-- Categories found --}}
+                            @foreach ($categories as $category) {{-- Loop through the categories --}}
+                                <a href="#" class="list-group-item">
+                                    {{ $category->name }}
+
+                                    <span class="pull-right text-muted small">
+                                        <em>
+                                            {{ $tickets->where('closed', 'N')->where('category_id', $category->id)->count() }} / 
+                                            {{ $tickets->where('closed', 'Y')->where('category_id', $category->id)->count() }}
+                                        </em>
+                                    </span>
+                                </a> 
+                            @endforeach {{-- END LOOP --}}
+                        @else {{-- No Categories found --}}
+                            <a href="#" class="list-group-item">
+                                <i>Er zijn geen categorieen in het systeem</i>
+                            </a>
+                        @endif
+
+                        {{ $categories->render() }} {{-- Pagination view instance. --}}
                     </div>
                 </div> {{-- /Side navigation panels --}}
 

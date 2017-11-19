@@ -31,7 +31,7 @@
                                 
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="">Statussen</a></li>
-                        <li><a href="">Prioriteiten</a></li>
+                        <li><a href="{{ route('priorities.index') }}">Prioriteiten</a></li>
                         <li><a href="">Vrijwilligers</a></li>
                         <li><a href="{{ route('categories.index') }}">Categorieen</a></li>
                         <li><a href="">Administrators</a></li>

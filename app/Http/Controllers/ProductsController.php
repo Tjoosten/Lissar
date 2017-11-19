@@ -58,7 +58,7 @@ class ProductsController extends Controller
      * @param  ProductValidator $input The given user input (Validated).
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(ProductValidator $input): RedirectResponse
+    public function store(ProductValidator $input): RedirectResponse // TODO: implement activity monitor, Implement translation for flash message. 
     {
         $input->merge(['author_id' => auth()->user()->id]); // Merge the user from the current session in the inputs.
 
@@ -75,7 +75,7 @@ class ProductsController extends Controller
      * @param  integer $productId The unique identifier from the storage.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($productId): RedirectResponse
+    public function destroy($productId): RedirectResponse // TODO: implement activity monitor, Implement translation for flash message. 
     {
         $product = $this->productRepository->find($productId) ?: abort(Response::HTTP_NOT_FOUND);
 

@@ -31,7 +31,7 @@ class AccountSettingsController extends Controller
     /**
      * Get the index page for the account settings.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function index(): View
     {
@@ -41,8 +41,8 @@ class AccountSettingsController extends Controller
     /**
      * Update the account information in the system.
      *
-     * @param AccountInfoValidator $input
-     * @return RedirectResponse
+     * @param  AccountInfoValidator $input  The user given input (validated).
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function editInfo(AccountInfoValidator $input): RedirectResponse
     {
@@ -50,14 +50,14 @@ class AccountSettingsController extends Controller
             flash(trans('account-settings.flash-edit-info-success'))->success();
         }
 
-        return redirect()->route('account.settings');
+        return redirect()->route('account.settings', ['type' => 'info']);
     }
 
     /**
      * Update the account security in the system.
      *
-     * @param  AccountSecurityValidator $input
-     * @return RedirectResponse
+     * @param  AccountSecurityValidator $input  The user given input (validated).
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function editSecurity(AccountSecurityValidator $input): RedirectResponse
     {
@@ -67,6 +67,6 @@ class AccountSettingsController extends Controller
             flash('account-settings.flash-edit-security-success')->success();
         }
 
-        return redirect()->route('account.settings');
+        return redirect()->route('account.settings', ['type' => 'security']);
     }
 }

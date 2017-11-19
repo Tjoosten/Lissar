@@ -35,15 +35,13 @@ class PermissionController extends Controller
     /**
      * Index view for the ACL management console. 
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function index(): View 
     {
-        $paginateLimit = 25; 
-
         return view('acl.index', [
-            'roles'       => $this->roleRepository->paginate($paginateLimit),
-            'permissions' => $this->permissionRepository->paginate($paginateLimit),
+            'roles'       => $this->roleRepository->paginate(25),
+            'permissions' => $this->permissionRepository->paginate(25),
         ]); 
     }
 

@@ -2,10 +2,12 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
-            <div class="col-md-offset-1 col-md-10">
-                @include('flash::message') {{-- Flash session view instance --}}
+        @include('flash::message')
 
+        <div class="row">
+            @include('tickets.partials.navigation') {{-- Helpdesk tickets navigation --}}
+            
+            <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-bug"></i> Meld een probleem of vraag ondersteuning:

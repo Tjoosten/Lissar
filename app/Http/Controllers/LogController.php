@@ -23,14 +23,14 @@ class LogController extends Controller
      */
     public function __construct(ActivityRepository $activityRepository)
     {
-        $this->middleware('auth');
+        $this->middleware('auth'); // TODO: Register middleware that only admins can get the page contents.
         $this->activityRpeository = $activityRepository;
     }
 
     /**
      * Get the index  view for the platform activity.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function index(): View
     {

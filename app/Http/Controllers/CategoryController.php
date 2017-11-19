@@ -77,6 +77,7 @@ class CategoryController extends Controller
         $input->merge(['author_id' => auth()->user()->id, 'module' => 'helpdesk']);
         
         if ($category = $this->categoryRepository->create($input->except('_token'))) {
+            // TODO: implement activity monitor, Implement translation for flash message. 
             flash("De categorie {$category->name} is aangemaakt in het systeem.")->success();
         }
 
@@ -84,7 +85,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * The dit view for a category in the system.
+     * The edit view for a category in the system.
      *
      * @param  integer $categoryId The unique identifier in the storage.
      * @return \Illuminate\View\View
@@ -109,6 +110,7 @@ class CategoryController extends Controller
         $category = $this->categoryRepository->find($categoryId) ?: abort(Response::HTTP_NOT_FOUND);
 
         if ($update = $category->update($input->except('_token'))) { // Category has been updated.
+            // TODO: implement activity monitor, Implement translation for flash message. 
             flash("De category {$update->name} is aangepast in het systeem.")->success();
         }
 
@@ -126,6 +128,7 @@ class CategoryController extends Controller
         $category = $this->categoryRepository->find($categoryId) ?: abort(Response::HTTP_NOT_FOUND);
 
         if ($category->delete()) { // Category has been deleted.
+            // TODO: implement activity monitor, Implement translation for flash message. 
             flash('De categorie is verwijderd uit het systeem.')->success();
         }
 
