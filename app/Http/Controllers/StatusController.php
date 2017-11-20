@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StatusValidator;
 use App\Repositories\{StatusRepository, TicketsRepository};
-use Illuminate\Http\RedirectResponse; 
+use Illuminate\Http\{Response, RedirectResponse}; 
 use Illuminate\View\View;
 
 /**
@@ -61,7 +61,17 @@ class StatusController extends Controller
      */
     public function store(StatusValidator $input): RedirectResponse
     {
-        return '<code>Implement user logic.</code>';
+        $input->merge(['author_id' => auth()->user()->id, 'module' => 'helpdesk']);
+
+        if ($status = $this->statusRepository->create($input->except('_token'))) {
+            flash("De status {$status->name} is toegevoegd in het systeem.")->success();
+
+            activity()->performedOn($status)->causedBy(auth()->user())->log(
+                trans('activity-log.status-create', ['statusTitle' => $status->name, 'author' => auth()->user()])
+            );
+        }
+
+        return redirect()->route('status.index');                                                                                                                                                                                                                                                                   
     }
 
     /**
@@ -95,6 +105,16 @@ class StatusController extends Controller
      */
     public function destroy($statusId): RedirectResponse 
     {
-        return '<code>Build up the logic</code>';
+        $status = $this->statusRepository->find($statusId) ?: abort(Response::HTTP_NOT_FOUND);
+
+        if ($status->delete()) {
+            flash("De status {$status->name} is verwijderd uit het systeem.")->success();
+
+            activity()->performedOn($status)->causedBy(auth()->user())->log(
+                trans('activity-log.status-delete', ['statusTitle' => $status->name])
+            );
+        }
+
+        return redirect()->route('status.index');
     }
 }

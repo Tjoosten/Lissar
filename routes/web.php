@@ -39,8 +39,8 @@ Route::post('/tickets/store', 'TicketController@store')->name('ticket.store');
 Route::get('/helpdesk/status', 'StatusController@index')->name('status.index');
 Route::get('/helpdesk/status/create', 'StatusController@create')->name('status.create');
 Route::get('/helpdesk/status/edit/{id}', 'StatusController@edit')->name('status.edit');
-Route::get('/helpdesk/delete/{id}', 'StatusController@destroy')->name('status.delete');
-Route::get('/helpdesk/status/store', 'StatusController@store')->name('status.store');
+Route::get('/helpdesk/status/delete/{id}', 'StatusController@destroy')->name('status.delete');
+Route::post('/helpdesk/status/store', 'StatusController@store')->name('status.store');
 
 // Permission routes
 Route::get('/permissions', 'PermissionController@index')->name('acl.index');

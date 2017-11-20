@@ -34,12 +34,14 @@
                                         @foreach ($statusses as $status) {{-- Loop through the statusses --}}
                                             <tr>
                                                 <td><strong>#{{ $status->id }}</strong></td>
-                                                <td><span style="color: {{ $status->color_code }}">{{ $status->author->name }}</span></td>
+                                                <td>{{ $status->author->name }}</td>
+                                                <td><span style="color: {{ $status->color_code }}">{{ $status->name }}</span></td>
                                                 <td>{{ $status->description }}</td>
+                                                <td>{{ $status->created_at->diffForHumans() }}</td>
                                                 
-                                                <td> {{-- Options --}}
+                                                <td class="text-center"> {{-- Options --}}
                                                     <a href="{{ route('status.edit', $status) }}" class="label label-warning"><i class="fa fa-wrench"></i> Wijzig</a>
-                                                    <a href="{{ route('status.delete', $status) }}" class="label label-danger"><i class="fa fa-close"> Verwijder</a>
+                                                    <a href="{{ route('status.delete', $status) }}" class="label label-danger"><i class="fa fa-close"></i> Verwijder</a>
                                                 </td> {{-- /Options --}}
                                             </td>
                                         @endforeach {{-- /END loop --}}
