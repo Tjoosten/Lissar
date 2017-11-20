@@ -60,7 +60,7 @@
 
                                                     <div class="content">
                                                         <div>New notification</div>
-                                                        <small>00/00/00</small>
+                                                        <small>- {{ $unreadNotification->created_at->diffForHumans() }}</small>
                                                     </div>
 
                                                     <div class="icon-group">
@@ -90,7 +90,7 @@
                                     </div>
 
                                     <ul>
-                                        @if (count($readNotifications)) == 0) {{-- User has no unread notifications --}}
+                                        @if (count($readNotifications) == 0) {{-- User has no unread notifications --}}
                                             <li class="notification info">
                                                 <div class="icon">
                                                     <span class="fa fa-square-o" aria-hidden="true"></span>
@@ -114,7 +114,7 @@
 
                                                     <div class="content">
                                                         <div>New notification</div>
-                                                        <small>00/00/00</small>
+                                                        <small>- {{ $readNotification->created_at->diffForHumans() }}</small>
                                                     </div>
 
                                                     <div class="icon-group">

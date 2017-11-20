@@ -73,6 +73,8 @@ class TicketController extends Controller
         $user = $this->usersRepository->current();
         $input->merge(['author' => $user]);
 
+        dd($input->all());
+        
         if ($ticket = $this->ticketsRepository->create($input->except('_token'))) {
             if ($user->hasRoles(['admin', 'verantwoordelijke'])) {
                 activity()->performedOn($ticket)->causedBy($user)->log(trans('activity-log.ticket-create',

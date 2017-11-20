@@ -28,7 +28,7 @@ Route::get('/notifications/read/all', 'NotificationsController@markAllAsRead')->
 // Account settings routes
 Route::get('account/{type}', 'AccountSettingsController@index')->name('account.settings');
 Route::post('account/info', 'AccountSettingsController@editInfo')->name('account.settings.info');
-Route::post('account/security', 'AccountSettingsController@editSecurity');
+Route::post('account/security', 'AccountSettingsController@editSecurity')->name('account.settings.security');
 
 // Ticket controller routes
 Route::get('/tickets/dashboard', 'TicketController@index')->name('tickets.index');

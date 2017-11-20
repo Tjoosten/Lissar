@@ -19,7 +19,9 @@
                 <label class="control-label col-md-3">E-mail adres: <span class="text-danger">*</span></label>
 
                 <div class="col-md-10">
-                </div>
+                    <input type="text" class="form-control" placeholder="Uw email email adres">
+                    @error('email')
+                </div> 
             </div>
 
             <div class="form-group">
