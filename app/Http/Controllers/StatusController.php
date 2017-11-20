@@ -50,7 +50,7 @@ class StatusController extends Controller
      */
     public function create(): View 
     {
-        return '<code>Create view</code>';
+        return view('status.create', ['tickets' => $this->ticketsRepository->entity()]); 
     }
 
     /**
@@ -61,7 +61,7 @@ class StatusController extends Controller
      */
     public function store(StatusValidator $input): RedirectResponse
     {
-        //
+        return '<code>Implement user logic.</code>';
     }
 
     /**

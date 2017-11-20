@@ -38,7 +38,7 @@
                                                 <td>{{ $status->description }}</td>
                                                 
                                                 <td> {{-- Options --}}
-                                                    <a href="{{ route('status.edit', $status)" class="label label-warning"><i class="fa fa-wrench"></i> Wijzig</a>
+                                                    <a href="{{ route('status.edit', $status) }}" class="label label-warning"><i class="fa fa-wrench"></i> Wijzig</a>
                                                     <a href="{{ route('status.delete', $status) }}" class="label label-danger"><i class="fa fa-close"> Verwijder</a>
                                                 </td> {{-- /Options --}}
                                             </td>
