@@ -1,31 +1,28 @@
 <?php
 
-use App\Repositories\PermissionRepository;
-use App\Repositories\RoleRepository;
-use App\Repositories\UsersRepository;
 use App\User;
 use Illuminate\Database\Seeder;
+use App\Repositories\{PermissionRepository, RoleRepository, UsersRepository};
 
 /**
  * Class UsersTableSeeder
  */
 class UsersTableSeeder extends Seeder
 {
-    private $roleRepository;        /** @var RoleRepository  */
-    private $permissionRepository;  /** @var PermissionRepository */
-    private $usersRepository;       /** @var UsersRepository */
+    private $roleRepository;        /** @var RoleRepository         $roleRepository         */
+    private $permissionRepository;  /** @var PermissionRepository   $permissionRepository   */
+    private $usersRepository;       /** @var UsersRepository        $usersRepository        */
 
     /**
      * UsersTableSeeder constructor.
      *
-     * @param  RoleRepository        $roleRepository
-     * @param  PermissionRepository  $permissionRepository
-     * @param  UsersRepository       $usersRepository
+     * @param  RoleRepository        $roleRepository        Abstraction layer bewteen seeder and database.
+     * @param  PermissionRepository  $permissionRepository  Abstraction layer between seeder and database. 
+     * @param  UsersRepository       $usersRepository       Abstraction layer between seeder and database.
      * @return void
      */
-    public function __construct(
-        RoleRepository $roleRepository, PermissionRepository $permissionRepository, UsersRepository $usersRepository
-    ) {
+    public function __construct(RoleRepository $roleRepository, PermissionRepository $permissionRepository, UsersRepository $usersRepository) 
+    {
         $this->roleRepository       = $roleRepository;
         $this->permissionRepository = $permissionRepository;
         $this->usersRepository      = $usersRepository;
@@ -38,6 +35,8 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        // TODO: Implementation transaltions for the command outputs.
+
         // Ask for database migration refresh, default is no
         if ($this->command->confirm('Do you wish to refresh migrations before seeding, it will clear all old data!')) {
             // Call the php artisan migrate:refresh command.
