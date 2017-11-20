@@ -12,9 +12,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        //
-    ];
+    protected $commands = [Commands\CheckRolePermission::class, Commands\CheckRouteRole::class];
 
     /**
      * Define the application's command schedule.
