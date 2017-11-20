@@ -114,13 +114,12 @@ class UsersController extends Controller
     {
         $user  = $this->usersRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
 
-        if (Gate::allows('delete', $user) && $user->delete()) {
+        if (auth()->user()->hasRole('admin') || $user->id == auth()->user()->id) {
             // 1) Check if the user has the correct permissions. 2) The user is deleted in the system.
-            $message = trans('users.delete-flash-success', ['user' => $user->name]);
+            if ($user->delete()) { // User has been deleted in the system.
+                $message = trans('users.delete-flash-success', ['user' => $user->name]);
+            }
         }
-
-        // Check if the user you want to delete is the current user. IF YES: abort IO and customize the flash message.
-        (auth()->user()->id != $user->id) ?: $message = trans('users.delete-flash-current-user');
 
         flash(isset($message) ? $message : trans('users.delete-flash-no-perm', ['user' => $user->name]))->success();
         return redirect()->route('users.index');
