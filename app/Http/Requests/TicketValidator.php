@@ -24,7 +24,11 @@ class TicketValidator extends FormRequest
     public function rules()
     {
         return [
-            //
+            "subject"       => 'required|max:255',
+            "category_id"   => 'required|numeric', 
+            "assignee_id"   => 'required|numeric', 
+            "priority_id"   => 'required|numeric',
+            "description"   => 'required'
         ];
     }
 }
