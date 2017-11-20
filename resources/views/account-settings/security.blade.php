@@ -5,11 +5,16 @@
 
     <div class="panel-body">
 
-        <form action="" class="form-horizontal">
+        <form action="{{ route('account.settings.security') }}"  method="POST" class="form-horizontal">
             {{ csrf_field() }} {{-- Form field protection --}}
 
             <div class="form-group @error('password', 'has-error')">
                 <label class="control-label col-md-3">Nieuw wachtwoord: <span class="text-danger">*</span></label>
+
+                <div class="col-md-9">
+                    <input type="password" placeholder="Uw nieuw wachtwoord" class="form-control" @input('password')>
+                    @error('password')
+                </div>
             </div>
 
             <div class="form-group @error('password_confirmation', 'has-error')">

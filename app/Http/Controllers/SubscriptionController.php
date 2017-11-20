@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\SubscriptionRepository; 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -12,23 +13,52 @@ use Illuminate\View\View;
  */
 class SubscriptionController extends Controller
 {
+    private $subscriptionsRepository; /** @var SubscriptionRepository $subscriptionsRepository */
+
     /**
      * SubscriptionController constructor.
      *
+     * @param  SubscriptionRepository $subscriptionsRepository Abstraction layer between database and controller.
      * @return void
      */
-    public function __construct()
+    public function __construct(SubscriptionRepository $subscriptionsRepository)
     {
         $this->middleware(['auth']);
+        $this->subscriptionsRepository = $subscriptionsRepository;
     }
 
     /**
      * Get the index management console for the subscriptions.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function index(): View
     {
-        return view();
+        return view('subscriptions.index', ['subscriptions' => $this->subscriptionsRepository->paginate(25)]);
+    }
+
+    public function create() 
+    {
+
+    }
+
+    public function store() 
+    {
+
+    }
+
+    public function edit() 
+    {
+
+    }
+
+    public function update() 
+    {
+
+    }
+
+    public function destroy() 
+    {
+
     }
 }

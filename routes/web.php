@@ -17,7 +17,8 @@ Route::get('/', 'HomeController@index'); // TODO: Temporary fix needs to look fo
 Route::get('/home', 'HomeController@index')->name('home');
 
 // User routes
-Route::get('users', 'UsersController@index')->name('users.index');
+Route::get('/users', 'UsersController@index')->name('users.index');
+Route::get('/users/create', 'UsersController@create')->name('users.create');
 Route::get('/users/delete/{id}', 'UsersController@destroy')->name('users.delete');
 Route::get('/users/edit/{id}', 'UsersController@edit')->name('users.edit');
 
@@ -28,17 +29,26 @@ Route::get('/notifications/read/all', 'NotificationsController@markAllAsRead')->
 // Account settings routes
 Route::get('account/{type}', 'AccountSettingsController@index')->name('account.settings');
 Route::post('account/info', 'AccountSettingsController@editInfo')->name('account.settings.info');
-Route::post('account/security', 'AccountSettingsController@editSecurity');
+Route::post('account/security', 'AccountSettingsController@editSecurity')->name('account.settings.security');
 
 // Ticket controller routes
 Route::get('/tickets/dashboard', 'TicketController@index')->name('tickets.index');
 Route::get('/tickets/create', 'TicketController@create')->name('ticket.create');
+Route::post('/tickets/store', 'TicketController@store')->name('ticket.store');
+
+// Helpdesk status routes 
+Route::get('/helpdesk/status', 'StatusController@index')->name('status.index');
+Route::get('/helpdesk/status/create', 'StatusController@create')->name('status.create');
+Route::get('/helpdesk/status/edit/{id}', 'StatusController@edit')->name('status.edit');
+Route::get('/helpdesk/status/delete/{id}', 'StatusController@destroy')->name('status.delete');
+Route::post('/helpdesk/status/store', 'StatusController@store')->name('status.store');
 
 // Permission routes
 Route::get('/permissions', 'PermissionController@index')->name('acl.index');
 
 // API Key controller
 Route::get('/apikeys', 'ApiKeyController@index')->name('apikeys.index');
+Route::get('/apikeys/delete/{id}', 'ApiKeyController@delete')->name('apikeys.delete');
 Route::post('/apikeys/create', 'ApiKeyController@store')->name('apikeys.store');
 
 // Subscription routes

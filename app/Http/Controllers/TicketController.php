@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TicketValidator;
-use App\Repositories\{CategoryRepository, UsersRepository, TicketsRepository};
+use App\Repositories\{CategoryRepository, UsersRepository, TicketsRepository, PriorityRepository};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -54,10 +54,12 @@ class TicketController extends Controller
      * @param  CategoryRepository $categoryRepository Abstraction layer between controller and category database.
      * @return \Illuminate\View\View
      */
-    public function create(CategoryRepository $categoryRepository): View
+    public function create(CategoryRepository $categoryRepository, PriorityRepository $priorityRepository): View
     {
         return view('tickets.create', [
             'categories' => $categoryRepository->entity()->where(['module', 'helpdesk']), 
+            'priorities' => $priorityRepository->all(['id', 'name']),
+            'users'      => $this->usersRepository->entity()->role('admin', 'verantwoordelijke')->get(),
             'tickets'    => $this->ticketsRepository->entity(),
         ]);
     }
@@ -71,7 +73,7 @@ class TicketController extends Controller
     public function store(TicketValidator $input): RedirectResponse
     {
         $user = $this->usersRepository->current();
-        $input->merge(['author' => $user]);
+        $input->merge(['author_id' => $user->id]);
 
         if ($ticket = $this->ticketsRepository->create($input->except('_token'))) {
             if ($user->hasRoles(['admin', 'verantwoordelijke'])) {

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TicketValidator extends FormRequest
+class StatusValidator extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class TicketValidator extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check();
+        return auth()->user()->hasRole('admin');
     }
 
     /**
@@ -24,11 +24,9 @@ class TicketValidator extends FormRequest
     public function rules()
     {
         return [
-            "subject"       => 'required|max:255',
-            "category_id"   => 'required|numeric', 
-            "assignee_id"   => 'required|numeric', 
-            "priority_id"   => 'required|numeric',
-            "description"   => 'required'
+            'name'          => 'required|unique:categories,name|max:50', 
+            'color_code'    => 'required|max:7',
+            'description'   => 'required' 
         ];
     }
 }

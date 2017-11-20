@@ -4,8 +4,18 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * TODO: Implement docblock
+ */
 class AccountSecurityValidator extends FormRequest
 {
+    /**
+     * Redirect route when errors occur.
+     *  
+     * @var string
+     */
+    protected $redirectRoute = 'account.settings';
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +23,7 @@ class AccountSecurityValidator extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -23,8 +33,19 @@ class AccountSecurityValidator extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        return ['password' => 'required|string|min:6|confirmed'];
     }
+
+    /**
+     * Get the URL to redirect to on a validation error.
+     *
+     * @return string
+     */
+    protected function getRedirectUrl()
+    {
+        return $this->redirector->getUrlGenerator()->route(
+            $this->redirectRoute, ['type' => 'security']
+        );
+    }
+
 }

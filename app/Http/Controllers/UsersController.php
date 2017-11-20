@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Gate;
 use App\Http\Requests\UserValidator;
 use App\Repositories\UsersRepository;
 use Illuminate\Http\{RedirectResponse, Response};
@@ -57,19 +56,34 @@ class UsersController extends Controller
      */
     public function store(UserValidator $input): RedirectResponse 
     {
-        if ($user = $this->usersRepository->create($input->except('_token'))) {
+        if ($user = $this->usersRepository->create($input->except(['_token']))) {
             flash("U hebt een login aangemaakt voor {$user->name}")->success();
+            
+            //! TODO: Implement notification mail that to the input email. 
+            //!       To letting know that the user has been created.
         }
 
         return redirect()->route('users.index');
     }
 
-    public function block(): RedirectResponse
+    /**
+     * Block the user in the system.
+     *
+     * @param  integer $userId  The unique identifier in the storage
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function block($userId): RedirectResponse
     {
 
     }
 
-    public function unblock(): RedirectResponse
+    /**
+     * Activate the user back in the system. 
+     *
+     * @param  integer $userId  The unique identifier in the storage
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function unblock($userId): RedirectResponse
     {
 
     }
@@ -114,13 +128,13 @@ class UsersController extends Controller
     {
         $user  = $this->usersRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
 
-        if (Gate::allows('delete', $user) && $user->delete()) {
+        if (auth()->user()->hasRole('admin') || $user->id == auth()->user()->id) {
             // 1) Check if the user has the correct permissions. 2) The user is deleted in the system.
-            $message = trans('users.delete-flash-success', ['user' => $user->name]);
+            if ($user->delete()) { // User has been deleted in the system.
+                $message = trans('users.delete-flash-success', ['user' => $user->name]);
+                // TODO: Implement user notification mail that the account has been deleted. 
+            }
         }
-
-        // Check if the user you want to delete is the current user. IF YES: abort IO and customize the flash message.
-        (auth()->user()->id != $user->id) ?: $message = trans('users.delete-flash-current-user');
 
         flash(isset($message) ? $message : trans('users.delete-flash-no-perm', ['user' => $user->name]))->success();
         return redirect()->route('users.index');

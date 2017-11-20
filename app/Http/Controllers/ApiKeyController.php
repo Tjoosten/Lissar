@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
+use App\Notifications\ApiKeyDeleteNotification;
 use App\Http\Requests\ApiKeyValidator;
 use App\Repositories\{ApiKeyRepository, UsersRepository};
 use Illuminate\Http\{Response, RedirectResponse};
@@ -66,7 +68,7 @@ class ApiKeyController extends Controller
         //? TODO: Implement shorthand IF/ELSE to determine the flash session. 
         //?       This is needed because the ->createkey($service) can return FALSE.     
 
-        return redirect()->back(Response::HTTP_FOUND);
+        return redirect()->to($this->apiKeyRepository->getRedirectRoute());
     }
 
     /**
@@ -77,10 +79,18 @@ class ApiKeyController extends Controller
      */
     public function delete($keyId): RedirectResponse
     {
-        // TODO: Implement check. If the key is not found in the database throw an 404.
-        // TODO: Create the destory handling in the database
-        // TODO: if the delete was confirmed send an mail to the user that is owner of the key.
+        $apiKey   = $this->apiKeyRepository->find($keyId) ?: abort(Response::HTTP_NOT_FOUND);
+        $authUser = auth()->user();
+        
+        if (Gate::allows('delete', $apiKey) && $apiKey->delete()) {
+            $this->usersRepository->find($apiKey->apikeyable_id)->notify(new ApiKeyDeleteNotification($apiKey, $authUser));
+            flash("De API sleutel voor de service {$apiKey->service} is verwijderd.")->success();
+            
+            if (auth()->user()->hasRole('admin')) {
+                // TODO: Implement activity logger
+            }
+        }
 
-        return redirect()->route('apikeys.index');
+        return redirect()->to($this->apiKeyRepository->getRedirectRoute());
     }
 }

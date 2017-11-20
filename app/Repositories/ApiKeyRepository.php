@@ -39,4 +39,20 @@ class ApiKeyRepository extends Repository
         
         return false; // The apikey nor the service name could be stored in the database.
     }
+
+    /**
+     * Determine the redirect route and send i back to the controller.
+     *
+     * @return mixed
+     */
+    public function getRedirectRoute()
+    {
+        switch (url()->previous()) { //! Dirty fix but it works for now.
+            case url('account/info'):     return route('account.settings', ['type' => 'apikeys']);
+            case url('account/security'): return route('account.settings', ['type' => 'security']);
+            case url('account/apikeys'):  return route('account.settings', ['type' => 'apikeys']);
+            
+            default: return route('apikeys.index');    
+        }
+    }
 }
