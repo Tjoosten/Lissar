@@ -18,7 +18,7 @@
                                 </button>
                             @endif
 
-                            <a href="" class="btn btn-xs btn-default">
+                            <a href="{{ route('users.create') }}" class="btn btn-xs btn-default">
                                 <i class="fa fa-plus"></i> Nieuwe gebruiker.
                             </a>
                         </div>

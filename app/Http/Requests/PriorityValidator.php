@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/** 
+ * TODO: Implement docblock
+ */
 class PriorityValidator extends FormRequest
 {
     /**
@@ -13,7 +16,7 @@ class PriorityValidator extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->user()->hasRole('admin');
     }
 
     /**
@@ -24,7 +27,9 @@ class PriorityValidator extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'          => 'required|unique:categories,name|max:50', 
+            'color_code'    => 'required|max:7',
+            'description'   => 'required' 
         ];
     }
 }

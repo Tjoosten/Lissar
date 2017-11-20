@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use Priorityspace\Priority;
+use App\Priority;
 use ActivismeBE\DatabaseLayering\Repositories\Contracts\RepositoryInterface;
 use ActivismeBE\DatabaseLayering\Repositories\Eloquent\Repository;
 

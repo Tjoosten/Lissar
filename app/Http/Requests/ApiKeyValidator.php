@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * TODO: Generate doc block
+ */
 class ApiKeyValidator extends FormRequest
 {
     /**
@@ -13,7 +16,7 @@ class ApiKeyValidator extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->user()->hasRole('admin');
     }
 
     /**
@@ -23,8 +26,6 @@ class ApiKeyValidator extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        return ['service' => 'required|max:255'];
     }
 }

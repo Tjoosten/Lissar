@@ -167,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Chrisbjr\ApiGuard\Providers\ApiGuardServiceProvider::class,
 
         /*
          * Application Service Providers...
