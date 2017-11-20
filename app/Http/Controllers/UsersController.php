@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Gate;
 use App\Http\Requests\UserValidator;
 use App\Repositories\UsersRepository;
 use Illuminate\Http\{RedirectResponse, Response};
@@ -57,19 +56,34 @@ class UsersController extends Controller
      */
     public function store(UserValidator $input): RedirectResponse 
     {
-        if ($user = $this->usersRepository->create($input->except('_token'))) {
+        if ($user = $this->usersRepository->create($input->except(['_token']))) {
             flash("U hebt een login aangemaakt voor {$user->name}")->success();
+            
+            //! TODO: Implement notification mail that to the input email. 
+            //!       To letting know that the user has been created.
         }
 
         return redirect()->route('users.index');
     }
 
-    public function block(): RedirectResponse
+    /**
+     * Block the user in the system.
+     *
+     * @param  integer $userId  The unique identifier in the storage
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function block($userId): RedirectResponse
     {
 
     }
 
-    public function unblock(): RedirectResponse
+    /**
+     * Activate the user back in the system. 
+     *
+     * @param  integer $userId  The unique identifier in the storage
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function unblock($userId): RedirectResponse
     {
 
     }
@@ -118,6 +132,7 @@ class UsersController extends Controller
             // 1) Check if the user has the correct permissions. 2) The user is deleted in the system.
             if ($user->delete()) { // User has been deleted in the system.
                 $message = trans('users.delete-flash-success', ['user' => $user->name]);
+                // TODO: Implement user notification mail that the account has been deleted. 
             }
         }
 

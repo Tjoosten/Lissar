@@ -46,9 +46,9 @@ class UsersTableSeeder extends Seeder
         }
 
         // Confirm roles needed.
-        if ($this->command->confirm('Create roles for users, default is Admin and Verantwoordelijke. [y/N]', true)) {
+        if ($this->command->confirm('Create roles for users, default is Admin, Verantwoordelijke, Vrijwilliger, User.', true)) {
             // Ask the roles from input.
-            $inputRoles = $this->command->ask('Enter roles in comma seperate format.', 'admin, verantwoordelijke, user');
+            $inputRoles = $this->command->ask('Enter roles in comma seperate format.', 'admin, verantwoordelijke, vrijwilliger, user');
             $rolesArray = explode(',', $inputRoles);
 
             foreach ($rolesArray as $role) { // Add roles
@@ -75,7 +75,8 @@ class UsersTableSeeder extends Seeder
     {
         $user = factory(User::class)->create();
         $user->assignRole($role->name);
-        if( $role->name == 'admin' ) {
+
+        if ($role->name == 'admin' ) {
             $this->command->info('Here is your admin details to login:');
             $this->command->warn($user->email);
             $this->command->warn('Password is "secret"');

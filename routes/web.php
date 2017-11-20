@@ -17,7 +17,8 @@ Route::get('/', 'HomeController@index'); // TODO: Temporary fix needs to look fo
 Route::get('/home', 'HomeController@index')->name('home');
 
 // User routes
-Route::get('users', 'UsersController@index')->name('users.index');
+Route::get('/users', 'UsersController@index')->name('users.index');
+Route::get('/users/create', 'UsersController@create')->name('users.create');
 Route::get('/users/delete/{id}', 'UsersController@destroy')->name('users.delete');
 Route::get('/users/edit/{id}', 'UsersController@edit')->name('users.edit');
 
