@@ -35,6 +35,12 @@ Route::get('/tickets/dashboard', 'TicketController@index')->name('tickets.index'
 Route::get('/tickets/create', 'TicketController@create')->name('ticket.create');
 Route::post('/tickets/store', 'TicketController@store')->name('ticket.store');
 
+// Helpdesk status routes 
+Route::get('/helpdesk/status', 'StatusController@index')->name('status.index');
+Route::get('/helpdesk/status/create', 'StatusController@create')->name('status.create');
+Route::get('/helpdesk/status/edit/{id}', 'StatusController@edit')->name('status.edit');
+Route::get('/helpdesk/delete/{id}', 'StatusController@destroy')->name('status.delete');
+
 // Permission routes
 Route::get('/permissions', 'PermissionController@index')->name('acl.index');
 
