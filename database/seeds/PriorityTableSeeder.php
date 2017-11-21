@@ -15,10 +15,20 @@ class PriorityTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('priorities')->delete();
+        DB::table('priorities')->delete(); // Truncate the database table. 
 
-        factory(App\Priority::class)->create(['name' => trans('seeders.priority-name-1'), 'description' => trans('seeders.priority-description-1'), 'color_code' => '#000']);
-        factory(App\Priority::class)->create(['name' => trans('seeders.priority-name-2'), 'description' => trans('seeders.priority-description-2'), 'color_code' => '#000']);
+        //! Insert data into the table. Factories used. 
+        //! Because they are also implemented in the testing infterface.
+
+        factory(App\Priority::class)->create(
+            ['name' => trans('seeders.priority-name-1'), 'description' => trans('seeders.priority-description-1'), 'color_code' => '#000']
+        );
+
+        factory(App\Priority::class)->create(
+            ['name' => trans('seeders.priority-name-2'), 'description' => trans('seeders.priority-description-2'), 'color_code' => '#000']
+        );
+
+
         // Hoog
         // Kritiek
     }
