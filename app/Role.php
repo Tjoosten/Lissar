@@ -15,4 +15,14 @@ class Role extends \Spatie\Permission\Models\Role
      * @var array
      */
     protected $fillable = ['name'];
+
+    /**
+     * Always capitalize the name when we retrieve it
+     * 
+     * @return String
+     */
+    public function getNameAttribute($value): String
+    {
+        return ucfirst($value);
+    }
 }

@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="container">
-        @include('flash::message')
+        @include('flash::message') {{-- Flash session view instance.§ --}}
 
         <div class="row">
-            <div class="col-md-offset-2 col-md-8">
+            <div class="col-md-12">
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -18,26 +18,35 @@
 
                     <div class="panel-body">
                         <form action="" method="POST" class="form-horizontal">
-                            {{ csrf_field() }} {{-- CSRF form field protection --}}
+                            {{ csrf_field() }}  {{-- CSRF form field protection --}}
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Voornaam: <span class="text-danger">*</span></label>
+                            <div class="form-group @error('name', 'has-error')">
+                                <label class="control-label col-md-3">Naam: <span class="text-danger">*</span></label>
 
                                 <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="naam van de gebruiker" @input('name', $user->name)>
+                                    @error('name')
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Achternaam: <span class="text-danger">*</span></label>
-
-                                <div class="col-md-9">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
+                            <div class="form-group @error('email', 'has-error')">
                                 <label class="control-label col-md-3">E-mail adres: <span class="text-danger">*</span></label>
 
                                 <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="Gebruiker zijn email adres" @input('email', $user->email)>
+                                    @error('email')
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Gebruikers niveau: <span class="text-danger">*</label>
+
+                                <div class="col-md-9 @error('roles', 'has-error')">
+                                    <select class="form-control" @input('roles')>
+                                        <option value="">-- Selecteer het permissie niveau van de gebruiker --</option>
+                                        @options($roles, 'roles', auth()->user()->pluck('id', 'name')->toArray())
+                                    </select>
+                                    @error('roles') {{-- Instance for the roles validation errors. --}}
                                 </div>
                             </div>
 

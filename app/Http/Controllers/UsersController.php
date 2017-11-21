@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserValidator;
-use App\Repositories\UsersRepository;
+use App\Repositories\{UsersRepository, RoleRepository};
 use Illuminate\Http\{RedirectResponse, Response};
 use Illuminate\View\View;
 
@@ -15,6 +15,7 @@ use Illuminate\View\View;
 class UsersController extends Controller
 {
     private $usersRepository; /** @var UsersRepository $usersRepository */
+    private $roleRepository;
 
     /**
      * UsersController constructor.
@@ -22,10 +23,11 @@ class UsersController extends Controller
      * @param  UsersRepository $usersRepository Abstraction layer between database and controller.
      * @return void
      */
-    public function __construct(UsersRepository $usersRepository)
+    public function __construct(UsersRepository $usersRepository, RoleRepository $roleRepository)
     {
         $this->middleware('auth');
         $this->usersRepository = $usersRepository;
+        $this->roleRepository = $roleRepository;
     }
 
     /**
@@ -96,8 +98,10 @@ class UsersController extends Controller
      */
     public function edit($userId): View
     {
-        $user = $this->usersRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
-        return view('users.edit', compact('user'));
+        $user  = $this->usersRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
+        $roles = $this->roleRepository->entity()->pluck('name', 'id');
+
+        return view('users.edit', compact('user', 'roles'));
     }
 
     /**
