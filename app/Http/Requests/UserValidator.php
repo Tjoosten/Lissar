@@ -13,7 +13,7 @@ class UserValidator extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -23,8 +23,23 @@ class UserValidator extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        switch ($this->method())
+        {
+            case 'POST': {
+                return [
+                    'name'  => 'required|string|max:255',
+                    'email' => 'required|string|email|max:255|unique:users',
+                    'roles' => 'required',
+                ];
+            }
+
+            case 'PATCH': {
+                return [
+                    'name'  => 'required|string|max:255',
+                    'email' => 'required|string|email|max:255|unique:users,email,' . auth()->user()->id,
+                    'roles' => 'required',
+                ];
+            }
+        } 
     }
 }

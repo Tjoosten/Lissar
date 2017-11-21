@@ -17,8 +17,9 @@
                     </div>
 
                     <div class="panel-body">
-                        <form action="" method="POST" class="form-horizontal">
+                        <form action="{{ route('users.update', $user) }}" method="POST" class="form-horizontal">
                             {{ csrf_field() }}  {{-- CSRF form field protection --}}
+                            {{ method_field('PATCH') }}
 
                             <div class="form-group @error('name', 'has-error')">
                                 <label class="control-label col-md-3">Naam: <span class="text-danger">*</span></label>
@@ -42,9 +43,9 @@
                                 <label class="control-label col-md-3">Gebruikers niveau: <span class="text-danger">*</label>
 
                                 <div class="col-md-9 @error('roles', 'has-error')">
-                                    <select class="form-control" @input('roles')>
+                                    <select class="form-control" @input('roles[]')>
                                         <option value="">-- Selecteer het permissie niveau van de gebruiker --</option>
-                                        @options($roles, 'roles', auth()->user()->pluck('id', 'name')->toArray())
+                                        @options($roles, 'roles', $user->roles()->pluck('id', 'name')->toArray())
                                     </select>
                                     @error('roles') {{-- Instance for the roles validation errors. --}}
                                 </div>

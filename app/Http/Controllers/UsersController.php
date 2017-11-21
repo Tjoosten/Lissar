@@ -111,12 +111,13 @@ class UsersController extends Controller
      * @param  integer       $userId The unique identifier in the storage
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UserValidator $input, $userId): RedirectResponse
+    public function update(UserValidator $input, $userId): RedirectResponse // TODO: Implement activity logger
     {
         $dbUser = $this->usersRepository->find($userId) ?: abort(Response::HTTP_NOT_FOUND);
 
-        if ($user = $dbUser->update($input->except(['_token', 'permissions']))) {
-            flash(trans('users.flash-edit-success', ['user' => $user->name]))->success();
+        if ($dbUser->update($input->except(['_token', 'roles']))) {
+            $dbUser->roles()->sync($input->roles); // Synchronize the user with the new roles. 
+            flash(trans('users.flash-edit-success', ['user' => $dbUser->name]))->success();
         }
 
         return redirect()->route('users.index');

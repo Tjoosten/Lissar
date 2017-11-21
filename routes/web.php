@@ -21,6 +21,7 @@ Route::get('/users', 'UsersController@index')->name('users.index');
 Route::get('/users/create', 'UsersController@create')->name('users.create');
 Route::get('/users/delete/{id}', 'UsersController@destroy')->name('users.delete');
 Route::get('/users/edit/{id}', 'UsersController@edit')->name('users.edit');
+Route::patch('/users/update/{id}', 'UsersController@update')->name('users.update');
 
 // Notification routes
 Route::get('/notifications', 'NotificationsController@index')->name('notifications.index'); 
