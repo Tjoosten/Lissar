@@ -76,9 +76,11 @@ class UsersTableSeeder extends Seeder
         $user->assignRole($role->name);
 
         if ($role->name == 'admin' ) {
+            echo "\n";
             $this->command->info('Here is your admin details to login:');
             $this->command->warn($user->email);
             $this->command->warn('Password is "secret"');
+            echo "\n";
         }
     }
 }

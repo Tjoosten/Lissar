@@ -12,5 +12,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UsersTableSeeder::class);
+        
+        $this->command->info('Seeding other tables.');
+        echo "\n"; // Breakline
+
+        $this->call(PriorityTableSeeder::class);
     }
 }
