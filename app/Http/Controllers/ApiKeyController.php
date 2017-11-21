@@ -26,7 +26,7 @@ class ApiKeyController extends Controller
      */
     public function __construct(ApiKeyRepository $apiKeyRepository, UsersRepository $usersRepository) 
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'forbid-banned-user']);
 
         $this->apiKeyRepository = $apiKeyRepository;
         $this->usersRepository  = $usersRepository;

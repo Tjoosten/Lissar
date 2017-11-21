@@ -25,7 +25,7 @@ class PrioritiesController extends Controller
      */
     public function __construct(PriorityRepository $priorityRepository, TicketsRepository $ticketsRepository)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'forbid-banned-user']);
 
         $this->priorityRepository = $priorityRepository;
         $this->ticketsRepository  = $ticketsRepository;

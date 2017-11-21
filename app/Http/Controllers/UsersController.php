@@ -26,7 +26,7 @@ class UsersController extends Controller
      */
     public function __construct(UsersRepository $usersRepository, RoleRepository $roleRepository)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'forbid-banned-user']);
         $this->usersRepository = $usersRepository;
         $this->roleRepository = $roleRepository;
     }

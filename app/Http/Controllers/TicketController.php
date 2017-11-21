@@ -27,7 +27,7 @@ class TicketController extends Controller
      */
     public function __construct(TicketsRepository $ticketsRepository, UsersRepository $usersRepository, CategoryRepository $categoryRepository)
     {
-        $this->middleware(['auth']);
+        $this->middleware(['auth', 'forbid-banned-user']);
 
         $this->usersRepository    = $usersRepository;
         $this->ticketsRepository  = $ticketsRepository;

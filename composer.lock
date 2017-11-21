@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "87f48b513eafb598dee1c6ca5c36e114",
-    "content-hash": "3a11661ab1ee8f1c6fbc9e7e4038d0d6",
+    "hash": "c35556254d344f2c012cd22f63f06205",
+    "content-hash": "243c432afde7f2e1feb87ae95d84fdf3",
     "packages": [
         {
             "name": "activismebe/database-layering",
@@ -223,6 +223,78 @@
                 "rest"
             ],
             "time": "2017-09-26 13:33:58"
+        },
+        {
+            "name": "cybercog/laravel-ban",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cybercog/laravel-ban.git",
+                "reference": "85d5f1f867088ba3b981ff30a612549311508dc2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cybercog/laravel-ban/zipball/85d5f1f867088ba3b981ff30a612549311508dc2",
+                "reference": "85d5f1f867088ba3b981ff30a612549311508dc2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~5.1.20|~5.2|~5.3|~5.4|~5.5",
+                "illuminate/events": "~5.1.20|~5.2|~5.3|~5.4|~5.5",
+                "illuminate/support": "~5.1.20|~5.2|~5.3|~5.4|~5.5",
+                "php": "^5.6|^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^1.11",
+                "mockery/mockery": "^0.9.8",
+                "orchestra/database": "~3.4.0|~3.5.0",
+                "orchestra/testbench": "~3.4.0|~3.5.0",
+                "phpunit/phpunit": "^5.7|^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Cog\\Laravel\\Ban\\Providers\\BanServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cog\\Contracts\\Ban\\": "contracts/",
+                    "Cog\\Laravel\\Ban\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Komarev",
+                    "email": "a.komarev@cybercog.su",
+                    "homepage": "http://ell.folio.su",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Ban simplify blocking and banning Eloquent models.",
+            "homepage": "https://github.com/cybercog/laravel-ban",
+            "keywords": [
+                "Justice",
+                "arrest",
+                "ban",
+                "block",
+                "cog",
+                "cybercog",
+                "eloquent",
+                "forbid",
+                "jail",
+                "laravel",
+                "restrict",
+                "trait",
+                "user"
+            ],
+            "time": "2017-09-02 12:57:01"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

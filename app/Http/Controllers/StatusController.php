@@ -24,7 +24,7 @@ class StatusController extends Controller
      */
     public function __construct(StatusRepository $statusRepository, TicketsRepository $ticketsRepository) 
     {
-        $this->middleware(['auth']);
+        $this->middleware(['auth', 'forbid-banned-user']);
 
         $this->statusRepository  = $statusRepository;
         $this->ticketsRepository = $ticketsRepository; 

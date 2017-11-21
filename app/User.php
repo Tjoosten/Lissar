@@ -6,10 +6,12 @@ use Illuminate\Notifications\Notifiable;
 use Chrisbjr\ApiGuard\Models\Mixins\Apikeyable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Laravel\Ban\Traits\Bannable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements BannableContract
 {
-    use Notifiable, HasRoles, Apikeyable;
+    use Notifiable, HasRoles, Apikeyable, Bannable;
 
     /**
      * The attributes that are mass assignable.
