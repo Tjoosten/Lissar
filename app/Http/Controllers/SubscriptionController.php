@@ -23,7 +23,7 @@ class SubscriptionController extends Controller
      */
     public function __construct(SubscriptionRepository $subscriptionsRepository)
     {
-        $this->middleware(['auth']);
+        $this->middleware(['auth', 'forbid-banned-user']);
         $this->subscriptionsRepository = $subscriptionsRepository;
     }
 

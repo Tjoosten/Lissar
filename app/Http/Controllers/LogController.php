@@ -23,7 +23,7 @@ class LogController extends Controller
      */
     public function __construct(ActivityRepository $activityRepository)
     {
-        $this->middleware('auth'); // TODO: Register middleware that only admins can get the page contents.
+        $this->middleware(['auth', 'forbid-banned-user']); // TODO: Register middleware that only admins can get the page contents.
         $this->activityRpeository = $activityRepository;
     }
 

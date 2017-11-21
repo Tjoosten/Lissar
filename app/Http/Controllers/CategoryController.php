@@ -26,7 +26,7 @@ class CategoryController extends Controller
      */
     public function __construct(CategoryRepository $categoryRepository, TicketsRepository $ticketsRepository)
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'forbid-banned-user']);
 
         $this->categoryRepository = $categoryRepository;
         $this->ticketsRepository  = $ticketsRepository;
