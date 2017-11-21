@@ -15,12 +15,13 @@ use Illuminate\View\View;
 class UsersController extends Controller
 {
     private $usersRepository; /** @var UsersRepository $usersRepository */
-    private $roleRepository;
+    private $roleRepository;  /** @var RoleRepository  $roleRepository  */
 
     /**
      * UsersController constructor.
      *
      * @param  UsersRepository $usersRepository Abstraction layer between database and controller.
+     * @param  RoleRepository  $roleRepository  Abstraction layer between database and controller.
      * @return void
      */
     public function __construct(UsersRepository $usersRepository, RoleRepository $roleRepository)
@@ -43,7 +44,7 @@ class UsersController extends Controller
     /**
      * Create view a new user. 
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function create(): View
     {
