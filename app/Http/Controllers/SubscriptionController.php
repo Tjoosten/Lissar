@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\SubscriptionRepository; 
-use Illuminate\Http\Request;
+use Illuminate\Http\{Response, RedirectResponse};
 use Illuminate\View\View;
 
 /**
@@ -37,28 +37,60 @@ class SubscriptionController extends Controller
         return view('subscriptions.index', ['subscriptions' => $this->subscriptionsRepository->paginate(25)]);
     }
 
-    public function create() 
+    /**
+     * Get the create view for a new subscription.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create(): View 
+    {
+        return view();
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(): RedirectResponse
     {
 
     }
 
-    public function store() 
+    /**
+     * Undocumented function
+     *
+     * @return \Illuminate\View\View
+     */
+    public function edit(): View 
     {
 
     }
 
-    public function edit() 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function update(): RedirectResponse
     {
 
     }
 
-    public function update() 
+    /**
+     * Delete a subscription in the storage.
+     *
+     * @param   integer $subscription The unique identifier in the storage.
+     * @return  \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($subscription): RedirectResponse // TODO: Implement activity logger. 
     {
+        $subscription = $this->subscriptions->find($subscription) ?: abort(Response::HTTP_NOT_FOUND);
 
-    }
+        if ($subscription->delete()) { // Subscription has been deleted in the system.
+            flash("De inschrijving van {$subscription->name} is verwijderd uit het systeem")->success();
+        }
 
-    public function destroy() 
-    {
-
+        return redirect()->route('subscriptions.index');
     }
 }
