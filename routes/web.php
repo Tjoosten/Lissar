@@ -54,9 +54,15 @@ Route::post('/apikeys/create', 'ApiKeyController@store')->name('apikeys.store');
 
 // Subscription routes
 Route::get('/subscriptions', 'SubscriptionController@index')->name('inschrijvingen.index');
+Route::get('/subscriptions/create', 'SubscriptionController@create')->name('inschrijvingen.create');
+Route::get('/subscriptions/show/{id}', 'SubscriptionController@show')->name('inschrijvingen.info');
+Route::get('/subscriptions/delete/{id}', 'SubscriptionController@destroy')->name('inschrijvingen.delete');
+Route::post('/subscriptions/store', 'SubscriptionController@store')->name('inschrijvingen.store');
 
 // Product routes
 Route::get('/products', 'ProductsController@index')->name('producten.index');
+Route::get('/products/create', 'ProductsController@create')->name('producten.create');
+Route::post('/products/store', 'ProductsController@store')->name('producten.store');
 
 // Log routes
 Route::get('/activity', 'LogController@index')->name('logs.index');

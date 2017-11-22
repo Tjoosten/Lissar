@@ -9,6 +9,12 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"> {{-- Heading --}}
                         <i class="fa fa-fw fa-list"></i> Inschrijvingen mosselsouper 
+
+                        <div class="pull-right">
+                            <a href="" class="btn btn-xs btn-default"><i class="fa fa-search"></i> Zoek</a>
+                            <a href="{{ route('inschrijvingen.create') }}" class="btn btn-xs btn-default"><i class="fa fa-user-plus"></i> Inschrijving toevoegen</a>
+                            <a href="" class="btn btn-xs btn-default"><i class="fa fa-download"></i> Exporteer</a>
+                        </diV>
                     </div> {{-- /Heading --}}
 
                     <div class="panel-body"> {{-- Content --}}
@@ -34,8 +40,8 @@
                                                 <td>{{ $subscription->created_at->diffForHumans() }}</td>
 
                                                 <td class="text-center"> {{-- /End options --}}
-                                                    <a href="" class="label label-info"><i class="btn btn-info-circle"></i> Info</a>
-                                                    <a href="" class="label label-danger"><i class="btn btn-close"></i> Verwijder</a>
+                                                    <a href="{{ route('inschrijvingen.info', $subscription) }}" class="label label-info"><i class="btn btn-info-circle"></i> Info</a>
+                                                    <a href="{{ route('inschrijvingen.delete', $subscription) }}" class="label label-danger"><i class="btn btn-close"></i> Verwijder</a>
                                                 </td> {{-- /END options --}}
                                             </tr>
                                         @endforeach {{-- /END Loop --}}

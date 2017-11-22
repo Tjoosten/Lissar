@@ -36,7 +36,7 @@ class ProductsController extends Controller
     public function index(): View
     {
         return view('products.index', [
-            'drinks'     => $this->productRepository->entity()->where('type', 'drank'),
+            'drinks'     => $this->productRepository->entity()->where('type', 'Drank'),
             'foods'      => $this->productRepository->entity()->where('type', 'Eten'),
             'drinkCards' => $this->productRepository->entity()->where('type', 'Drankkaart')
         ]);
@@ -60,7 +60,10 @@ class ProductsController extends Controller
      */
     public function store(ProductValidator $input): RedirectResponse // TODO: implement activity monitor, Implement translation for flash message. 
     {
-        $input->merge(['author_id' => auth()->user()->id]); // Merge the user from the current session in the inputs.
+        $input->merge([
+            'author_id' => auth()->user()->id,                      // Merge the user from the current session in the inputs.
+            'price'     => str_replace(',', '.', $input->price),    // Remove comman notiations and use dot notations.
+        ]);
 
         if ($product = $this->productRepository->create($input->except('_token'))) {
             flash("het product '{$product->name}' is opgeslagen in het systeem.")->success();
@@ -79,7 +82,7 @@ class ProductsController extends Controller
     {
         $product = $this->productRepository->find($productId) ?: abort(Response::HTTP_NOT_FOUND);
 
-        if ($product->delete()) {
+        if ($product->delete()) { //! The record has been deleted. 
             flash("Het product '{$product->name}' is verwijderd uit het systeem.")->success();
         }
 

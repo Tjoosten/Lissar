@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         echo "\n"; // Breakline
 
         $this->call(PriorityTableSeeder::class);
+        $this->call(ProductsTableSeeder::class);
     }
 }

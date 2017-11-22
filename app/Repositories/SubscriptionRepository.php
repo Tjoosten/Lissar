@@ -22,4 +22,15 @@ class SubscriptionRepository extends Repository
     {
         return Subscriptions::class;
     }
+
+    /**
+     * Check if the persons are empty in the product array.
+     *
+     * @param  integer $inputKey The key where the amount of users are defined. 
+     * @return boolean
+     */
+    public function isEmptyPersonen($inputKey)
+    {
+        return ! is_null($inputKey) && (int) $inputKey !== 0;
+    }
 }

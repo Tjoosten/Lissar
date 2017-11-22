@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\SubscriptionRepository; 
+use Carbon\Carbon;
+use App\Http\Requests\SubscriptionValidator;
+use App\Repositories\{SubscriptionRepository, ProductRepository}; 
 use Illuminate\Http\{Response, RedirectResponse};
 use Illuminate\View\View;
 
@@ -14,16 +16,20 @@ use Illuminate\View\View;
 class SubscriptionController extends Controller
 {
     private $subscriptionsRepository; /** @var SubscriptionRepository $subscriptionsRepository */
+    private $productRepository;       /** @var ProductRepository      $productRepository       */
 
     /**
      * SubscriptionController constructor.
      *
+     * @param  ProductRepository      $productRepository       Abstraction layer between database and controller. 
      * @param  SubscriptionRepository $subscriptionsRepository Abstraction layer between database and controller.
      * @return void
      */
-    public function __construct(SubscriptionRepository $subscriptionsRepository)
+    public function __construct(SubscriptionRepository $subscriptionsRepository, ProductRepository $productRepository)
     {
         $this->middleware(['auth', 'forbid-banned-user']);
+        
+        $this->productRepository       = $productRepository;
         $this->subscriptionsRepository = $subscriptionsRepository;
     }
 
@@ -38,23 +44,51 @@ class SubscriptionController extends Controller
     }
 
     /**
+     * Search for a specific subscription.
+     *
+     * @param  Request $input
+     * @return \Illuminate\View\View
+     */
+    public function search(Request $input): View
+    {
+        return view('subscriptions.index', [
+            'subscriptions' =>$this->subscriptionsRepository->entity()->where('name', "%{$input->term}%")->paginate(25)
+        ]);
+    }
+
+    /**
      * Get the create view for a new subscription.
      *
      * @return \Illuminate\View\View
      */
     public function create(): View 
     {
-        return view();
+        return view('subscriptions.create', ['products' => $this->productRepository->entity()->where('type', 'Eten')->get()]);
     }
 
     /**
-     * Undocumented function
+     * Store the new subscription in the storage. 
      *
+     * @param  SubscriptionValidator $input The given user input (Validated).
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(): RedirectResponse
+    public function store(SubscriptionValidator $input): RedirectResponse
     {
+        // TODO: fill in the form validation.
 
+        if ($subscription = $this->subscriptionsRepository->create($input->except(['token', 'orders']))) {
+            foreach ($input->order as $order)  {
+                if ($this->subscriptionsRepository->isEmptyPersonen($order['personen'])) {
+                    $subscription->orders()->attach($order['product'], ['personen' => $order['personen']]);
+                    $subscription->notify((new OrderComplete($input))->delay(Carbon::now()->addMinutes(2)));
+
+                    flash("De inschrijving is toegevoegd in het systeem.")->success();
+                    activity()->performedOn($subscription)->causedBy(auth()->user())->log(trans('activity-log.subscription-create', ['author' => auth()->user()]));
+                } // END Order pivoting
+            } // END order loop
+        } // END Subscription insert
+
+        return redirect()->route('ins§è) chrijvingen.index');
     }
 
     /**
@@ -68,9 +102,9 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Undocumented function
+     * Update the product in the storage
      *
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(): RedirectResponse
     {
@@ -85,7 +119,7 @@ class SubscriptionController extends Controller
      */
     public function destroy($subscription): RedirectResponse // TODO: Implement activity logger. 
     {
-        $subscription = $this->subscriptions->find($subscription) ?: abort(Response::HTTP_NOT_FOUND);
+        $subscription = $this->subscriptionsRepository->find($subscription) ?: abort(Response::HTTP_NOT_FOUND);
 
         if ($subscription->delete()) { // Subscription has been deleted in the system.
             flash("De inschrijving van {$subscription->name} is verwijderd uit het systeem")->success();
